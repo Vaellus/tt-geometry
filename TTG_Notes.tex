@@ -229,11 +229,11 @@ is distinguished, as is
 \begin{equation}
 	a \otimes c \xrightarrow{i_{a \otimes c}} (a \otimes c) \oplus (b \otimes c) \xrightarrow{p_{b \otimes c}} b \otimes c \xrightarrow{0} \Sigma(a \otimes c)
 \end{equation}
-by another application of \autoref{tri-dir-sum}. By applying TR1(rotation), T2, and T3 we can get a morphism of distinguished triangles between the triangles on lines (1) and (2) above that is the identity on the first and third components and an isomorphism on the fourth as $\Sigma(a \otimes c) \cong \Sigma(a) \otimes c$. By \autoref{tri-five} $(a \oplus b) \otimes c \cong (a \otimes c) \oplus (b \otimes c)$.
+by another application of \autoref{tri-dir-sum}. By applying TR1(rotation), TR2, and TR3 we can get a morphism of distinguished triangles between the triangles on lines (1) and (2) above that is the identity on the first and third components and an isomorphism on the fourth as $\Sigma(a \otimes c) \cong \Sigma(a) \otimes c$. By \autoref{tri-five} $(a \oplus b) \otimes c \cong (a \otimes c) \oplus (b \otimes c)$.
 \end{proof}
 
 \begin{rmk}
-Tensor Triangular geometry is largely inspired by the rich geometry found in the realm of ring spectra, though I would argue that it is not immediately obvious from the definitions above that one should be able to develop such a theory on tt-categories. It's also worth noting that we could have proved this proposition if our category had an internal-hom strucure (more on this later), but this proof makes it clear that distributivity of the tensor product over direct sums directly comes from the triangular structure communicating well with the tensor structure, which is a hint that our tt-category might secretly behave somewhat like a ring. With this in mind, we shall seek out other parallels between tt-categories and commutative rings.
+Tensor Triangular geometry is largely inspired by the rich geometry found in the realm of ring spectra, though I would argue that it is not immediately obvious from the definitions above that one should be able to develop such a theory on tt-categories. It's also worth noting that we could have proved this proposition if our category had an internal-hom structure (more on this later), but this proof makes it clear that distributivity of the tensor product over direct sums directly comes from the triangular structure communicating well with the tensor structure, which is a hint that our tt-category might secretly behave somewhat like a ring. With this in mind, we shall seek out other parallels between tt-categories and commutative rings.
 \end{rmk}
 
 \begin{defn}
@@ -243,7 +243,7 @@ If $\CC$ is as thick subcategory of $\TT$ that is closed under $\otimes$, i.e. $
 \end{defn}
 
 \begin{rmk}
-Though not immedetiately obvious from the definition, it's worth noting that if $\mathcal{I}$ is a triangulated subcategory of $\TT$ then $a,b \in \CC$ implies that $a \otimes b \in \CC$, so $\CC$ being thick only adds the requirement that direct sums of objects in $\TT$ decompose within $\CC$.
+Though not immediately obvious from the definition, it's worth noting that if $\mathcal{I}$ is a triangulated subcategory of $\TT$ then $a,b \in \CC$ implies that $a \otimes b \in \CC$, so $\CC$ being thick only adds the requirement that direct sums of objects in $\TT$ decompose within $\CC$.
 
 Additionally, note that we are not distinguishing between left, right, or two-sided ideals. This is because our monoidal structure is symmetric, though it should be said that there is no reason that we couldn't consider a non-commutative analogue to the definition above in the scenario that we relax the condition that $\otimes$ be symmetric.
 \end{rmk}
@@ -256,7 +256,7 @@ In the following section we will assume that $\TT$ is an essentially small tt-ca
 A thick $\otimes$-ideal $\mathcal{P} \subseteq \TT$ is called \textbf{prime} if for any $a,b \in \ob(\TT)$ such that $a \otimes b \in \mathcal{P}$ then either $a \in \mathcal{P}$ or $b \in \mathcal{P}$. We define $\spc \TT$ to be the collection of all prime $\otimes$-ideals in $\TT$. A \textbf{maximal} $\otimes$-ideal is a proper $\otimes$-ideal of $\TT$ that is maximal with respect to inclusion.
 \end{defn}
 
-Later on we will define $\Spec \TT $ to be the set $\spc \TT$ equipped with a particular ringed space structure, so we will hold the notation $\Spec \TT$ in reserve until then. To put a ringed space structure on $\spc \TT$, we first need to put a toplogy on $\TT$.
+Later on we will define $\Spec \TT $ to be the set $\spc \TT$ equipped with a particular ringed space structure, so we will hold the notation $\Spec \TT$ in reserve until then. To put a ringed space structure on $\spc \TT$, we first need to put a topology on $\TT$.
 
 \begin{defn}
 For any $\mathcal{S} \subseteq \ob(\TT)$, we write $Z(S) \coloneqq \{\cP \in \spc \TT\:|\:\mathcal{S}\cap \cP = \emptyset\}$.
@@ -273,6 +273,9 @@ For any tt-category $\TT$ the following hold:
 \end{enumerate}
 where $\mathcal{S}_1 \oplus \mathcal{S}_2 = \{a \oplus b\:|\: a \in \mathcal{S}_1, b \in \mathcal{S}_2\}$.
 \end{prop}
+\begin{proof}
+\large{\textcolor{red}{ADD THIS PROOF}}
+\end{proof}
 
 It immediately follows that we can define a Zariski topology on $\spc \TT$ with closed sets $Z(S)$.
 
@@ -304,7 +307,7 @@ Define $\mathcal{J} \coloneqq \{a \in \TT: \exists s \in S, a \otimes s \in \mat
 a \otimes s \ar[r,"f \otimes \id_s"] \ar[d,equal] & b \otimes s \ar[d,equal] \ar[r] & \cone(f \otimes \id_s) \ar[r] \ar[d,dashed,leftrightarrow] & \Sigma(a \otimes s) \ar[d, equal]\\
  a \otimes s \ar[r,"f \otimes \id_s"]& b \otimes s \ar[r] & \cone(f) \otimes s \ar[r] &  \Sigma(a) \otimes s \\
 \end{tikzcd}\]
-the dotted arrow exists by TC3 of \autoref{tricat}. By \autoref{tri-five} $\cone(f) \times s \cong \cone(f \otimes \id_s)$. Since $\mathcal{I}$ is a thick subcategory and $a \otimes s, b \otimes s \in \mathcal{I}$ it follows that $\cone(f) \otimes s \cong \cone(f \otimes \id_s) \in \mathcal{I}$. Therefore, $\cone(f) \in \mathcal{J}$, so $\mathcal{J}$ is a tensor subcategory of $\TT$. Now suppose that $a \oplus b \in \mathcal{J} $, so $\exists s \in S $ such that $(a \oplus b) \otimes s \in \mathcal{I}$. Then, since $(a \oplus b) \otimes s \cong (a \otimes s) \oplus (b \otimes s)$ it follows that $a \otimes s, b \otimes s \in \mathcal{I}$, so $a,b \in \mathcal{J}$. Additionally, $\mathcal{J} \cap \mathcal{S}$ since if $a \in \mathcal{S} \cap \mathcal{J}$ then $\exists s \in \mathcal{S}$ such that $a \otimes s \in \mathcal{I}$, but then $a \otimes s \in \mathcal{I} \cap \mathcal{S}$ as $a,s \in \mathcal{S}$ implies that $a \otimes s$ as $\mathcal{S}$ is $\otimes$-multiplicatively closed, which is a contradiction.
+the dotted arrow exists by TR3 of \autoref{tricat}. By \autoref{tri-five} $\cone(f) \times s \cong \cone(f \otimes \id_s)$. Since $\mathcal{I}$ is a thick subcategory and $a \otimes s, b \otimes s \in \mathcal{I}$ it follows that $\cone(f) \otimes s \cong \cone(f \otimes \id_s) \in \mathcal{I}$. Therefore, $\cone(f) \in \mathcal{J}$, so $\mathcal{J}$ is a tensor subcategory of $\TT$. Now suppose that $a \oplus b \in \mathcal{J} $, so $\exists s \in S $ such that $(a \oplus b) \otimes s \in \mathcal{I}$. Then, since $(a \oplus b) \otimes s \cong (a \otimes s) \oplus (b \otimes s)$ it follows that $a \otimes s, b \otimes s \in \mathcal{I}$, so $a,b \in \mathcal{J}$. Additionally, $\mathcal{J} \cap \mathcal{S}$ since if $a \in \mathcal{S} \cap \mathcal{J}$ then $\exists s \in \mathcal{S}$ such that $a \otimes s \in \mathcal{I}$, but then $a \otimes s \in \mathcal{I} \cap \mathcal{S}$ as $a,s \in \mathcal{S}$ implies that $a \otimes s$ as $\mathcal{S}$ is $\otimes$-multiplicatively closed, which is a contradiction.
 
 Now let $C$ be the collection of thick $\otimes$-ideals $\mathcal{J}$ where 
 \begin{enumerate}[(1)]
@@ -312,7 +315,7 @@ Now let $C$ be the collection of thick $\otimes$-ideals $\mathcal{J}$ where
 	\item If $a \in \mathcal{T}$ such that there is some $s \in \mathcal{S}$ where $a \otimes s \in \mathcal{J}$, then $a \in \mathcal{J}$
 	\item $\mathcal{I} \subseteq \mathcal{J}$
 \end{enumerate}
-The paragraph above shows that $C$ is nonempty. Now let $\{J_i\}$ be an ascending chain (via containment) within $C$. Then clearly the full subcategory of $\TT$ generated by the union of the objects within $\{J_i\}$ is also a thick $\otimes$-ideal satisfying the conditions above, so by Zorn's lemma there exists a maximal element $\mathcal{P}$ of $C$. To see that $\mathcal{P}$ is prime, suppose that $a \times b \in \mathcal{P}$ and $b \not\in P$. Then define $(\mathcal{P}:a)$ to be the full subcategory of $\TT$ generated by $\{x \in \TT: x \otimes a \in \mathcal{P}\}$. This subcategory is easily shown to be a thick $\otimes$-ideal of $\TT$ by essentially the same methods used to show that $\mathcal{J}$ above was a rhick $\otimes$-ideal. If $x \in \mathcal{P}$ then $x \otimes a \in \mathcal{P}$ by definition of a $\otimes$-ideal, so $\mathcal{P} \subset (\mathcal{P}: a)$, but $b \in (\mathcal{P}: a) \setminus \mathcal{P}$, so the containment is proper. Hence $(\mathcal{P}:a) \not\in C$, so one of the three properties above fails for $(\mathcal{P}:a)$. Clearly it can't be condition (3), so suppose that $x \in \TT$ such that there is some $s \in \mathcal{S}$ where $x \otimes s \in (\mathcal{P}: a)$. Then $x \otimes s \otimes a \in \mathcal{P}$, but by condition $(2)$ this implies that $x \otimes a \in \mathcal{P}$, and therefore $x \in (\mathcal{P}:a)$. Therefore the only condition that $(\mathcal{P}:a)$ could fail is $(2)$, which means that $\exists s \in (\mathcal{P}:a) \cap S$, so $a \otimes s \in \mathcal{P}$. But then $a \in \mathcal{P}$ by condition (2). Hence $\mathcal{P}$ is prime.
+The paragraph above shows that $C$ is nonempty. Now let $\{J_i\}$ be an ascending chain (via containment) within $C$. Then clearly the full subcategory of $\TT$ generated by the union of the objects within $\{J_i\}$ is also a thick $\otimes$-ideal satisfying the conditions above, so by Zorn's lemma there exists a maximal element $\mathcal{P}$ of $C$. To see that $\mathcal{P}$ is prime, suppose that $a \times b \in \mathcal{P}$ and $b \not\in P$. Then define $(\mathcal{P}:a)$ to be the full subcategory of $\TT$ generated by $\{x \in \TT: x \otimes a \in \mathcal{P}\}$. This subcategory is easily shown to be a thick $\otimes$-ideal of $\TT$ by essentially the same methods used to show that $\mathcal{J}$ above was a thick $\otimes$-ideal. If $x \in \mathcal{P}$ then $x \otimes a \in \mathcal{P}$ by definition of a $\otimes$-ideal, so $\mathcal{P} \subset (\mathcal{P}: a)$, but $b \in (\mathcal{P}: a) \setminus \mathcal{P}$, so the containment is proper. Hence $(\mathcal{P}:a) \not\in C$, so one of the three properties above fails for $(\mathcal{P}:a)$. Clearly it can't be condition (3), so suppose that $x \in \TT$ such that there is some $s \in \mathcal{S}$ where $x \otimes s \in (\mathcal{P}: a)$. Then $x \otimes s \otimes a \in \mathcal{P}$, but by condition $(2)$ this implies that $x \otimes a \in \mathcal{P}$, and therefore $x \in (\mathcal{P}:a)$. Therefore the only condition that $(\mathcal{P}:a)$ could fail is $(2)$, which means that $\exists s \in (\mathcal{P}:a) \cap S$, so $a \otimes s \in \mathcal{P}$. But then $a \in \mathcal{P}$ by condition (2). Hence $\mathcal{P}$ is prime.
 \end{proof}
 
 \begin{cor}
@@ -325,7 +328,7 @@ Maximal thick $\otimes$-ideals are prime.
 
 \section{Appendix A - Triangulated Categories}
 \subsection{The Octohedral Axiom}\label{octaxiom}
-Here is an undiagrammatic presnetation of T4: Given a composition $X \xrightarrow{f} Y \xrightarrow{g} Z$ and distinguished triangles $(X,Y,Z'; f_1, p_1, d_1)$, $(X,Z,Y'; g\circ f, p_2, d_2)$, and $(Y,Z,X'; g, p_3, d_3)$, there exist morphisms $Z' \xrightarrow{a} Y'$ and $Y' \xrightarrow{b} X'$ such that
+Here is an undiagrammatic presentation of TR4: Given a composition $X \xrightarrow{f} Y \xrightarrow{g} Z$ and distinguished triangles $(X,Y,Z'; f_1, p_1, d_1)$, $(X,Z,Y'; g\circ f, p_2, d_2)$, and $(Y,Z,X'; g, p_3, d_3)$, there exist morphisms $Z' \xrightarrow{a} Y'$ and $Y' \xrightarrow{b} X'$ such that
 	\begin{enumerate}[(a)]
 		\item $(Z',Y',X'; a,b,\Sigma p_1 \circ d_3)$ is exact,
 		\item the triple $(\id_X,g,a)$ is a morphism of triangles $(X,Y,Z'; f,p_1,d_1) \to (X,Z,Y'; g\circ f,p_2,d_2)$, and
@@ -417,7 +420,7 @@ Then, by the 5-lemma, the middle map is an isomorphism, so $\Hom_{\TT}(A,Y) \con
 \end{proof}
 
 \begin{rmk}\label{specialtriangles}
-This proof actually give us a little more than advertised. It says that if we have a morphism of (not necessarily distinguished) triangles $(\alpha,\beta,\gamma): (X,Y,Z; f,g,h) \to (X',Y',Z'; f',g',h')$ such that the long exact sequences coming from $\Hom_{\TT}(W,-)$ on the triangles are exact for all $W \in \ob(\TT)$, then any two of $\alpha,\beta,\gamma$ being isomorphisms implies that the third is an isomorphism. It's worth pointing this out since this conclusion is slightly stronger as there are triangles for which this condtion holds that are not distinguished.
+This proof actually give us a little more than advertised. It says that if we have a morphism of (not necessarily distinguished) triangles $(\alpha,\beta,\gamma): (X,Y,Z; f,g,h) \to (X',Y',Z'; f',g',h')$ such that the long exact sequences coming from $\Hom_{\TT}(W,-)$ on the triangles are exact for all $W \in \ob(\TT)$, then any two of $\alpha,\beta,\gamma$ being isomorphisms implies that the third is an isomorphism. It's worth pointing this out since this conclusion is slightly stronger as there are triangles for which this condition holds that are not distinguished.
 \end{rmk}
 
 \begin{cor}\label{sumoftriangles}
@@ -428,13 +431,13 @@ This proof actually give us a little more than advertised. It says that if we ha
 	is distinguished if and only if both $(X,Y,Z; f,g,h)$ and $(X',Y',Z'; f',g',h')$ are distinguished.
 \end{cor}
 \begin{proof}
-Assume that the two individual triangles are distinguished. By T2 there exists $Q$ such that $(X \oplus X', Y \oplus Y', Q; f+f', g'', h'')$ is distinguished. By T3 there are morphisms from $(X,Y,Z; f,g,h)$ and $(X',Y',Z'; f',g',h')$ into $(X \oplus X', Y \oplus Y', Q; f+f', g'', h'')$ induced by the inclusion maps from the components of the triangles into their direct sums. This in turn induces a map 
+Assume that the two individual triangles are distinguished. By T2 there exists $Q$ such that $(X \oplus X', Y \oplus Y', Q; f+f', g'', h'')$ is distinguished. By TR3 there are morphisms from $(X,Y,Z; f,g,h)$ and $(X',Y',Z'; f',g',h')$ into $(X \oplus X', Y \oplus Y', Q; f+f', g'', h'')$ induced by the inclusion maps from the components of the triangles into their direct sums. This in turn induces a map 
 \[
 	(X \oplus X', Y \oplus Y', Z \oplus Z'; f+f', g+g', h+h') \xrightarrow{(\id,\id,\alpha)}(X \oplus X', Y \oplus Y', Q; f+f', g'', h'')
 \]
 By \autoref{tri-five}, $\alpha$ is an isomorphism and therefore the direct sum of triangles is distinguished.
 
-Now suppose that the direct sum is distinguished. We will show that $(X,Y,Z; f,g,h)$ is distinguished, and by symmetry the result will follow. Using $T2$ and $T3$ there is a distinguished triangle $(X,Y,Q; f,g'',h'')$ and a morphism of distinguished triangles $(\pi_X,\Pi_Y, p): (X \oplus X', Y \oplus Y', Z \oplus Z'; f+f', g+g', h+h') \to (X,Y,Q; f,g'',h'')$. We can then get a morphism of triangles $(X,Y,Z; f,g,h) \to (X,Y,Q; f,g'',h'')$ by precomposing with the inclusion maps coming from $X,Y,Z$. The long exact sequence on $(X \oplus X', Y \oplus Y', Z \oplus Z'; f+f', g+g', h+h')$ coming from $\Hom_{\TT}(W,-)$ will split into the direct sum of exact complexes coming from $(X,Y,Z; f,g,h)$ and $(X',Y',Z'; f',g',h')$ and therefore $(X,Y,Z; f,g,h)$ satisfies the condition in $\autoref{specialtriangles}$. Therefore, the morphism $(X,Y,Z; f,g,h) \to (X,Y,Q; f,g'',h'')$ of triangles is a morphism on the third component since the other two components are the identity map. Hence, $(X,Y,Z; f,g,h)$ is isomorphism to a distinguished triangle and is therefore itself distinguished.
+Now suppose that the direct sum is distinguished. We will show that $(X,Y,Z; f,g,h)$ is distinguished, and by symmetry the result will follow. Using TR2 and TR3 there is a distinguished triangle $(X,Y,Q; f,g'',h'')$ and a morphism of distinguished triangles $(\pi_X,\Pi_Y, p): (X \oplus X', Y \oplus Y', Z \oplus Z'; f+f', g+g', h+h') \to (X,Y,Q; f,g'',h'')$. We can then get a morphism of triangles $(X,Y,Z; f,g,h) \to (X,Y,Q; f,g'',h'')$ by precomposing with the inclusion maps coming from $X,Y,Z$. The long exact sequence on $(X \oplus X', Y \oplus Y', Z \oplus Z'; f+f', g+g', h+h')$ coming from $\Hom_{\TT}(W,-)$ will split into the direct sum of exact complexes coming from $(X,Y,Z; f,g,h)$ and $(X',Y',Z'; f',g',h')$ and therefore $(X,Y,Z; f,g,h)$ satisfies the condition in $\autoref{specialtriangles}$. Therefore, the morphism $(X,Y,Z; f,g,h) \to (X,Y,Q; f,g'',h'')$ of triangles is a morphism on the third component since the other two components are the identity map. Hence, $(X,Y,Z; f,g,h)$ is isomorphism to a distinguished triangle and is therefore itself distinguished.
 \end{proof}
 
 \begin{cor}\label{tri-dir-sum}

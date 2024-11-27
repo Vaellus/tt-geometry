@@ -1,0 +1,130 @@
+\usepackage{amssymb,xcolor,graphicx,amsthm,multicol,mathtools,amsfonts,parskip,thmtools,mathrsfs}
+\usepackage{tikz-cd}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[all, knot]{xy}
+\xyoption{all}
+\xyoption{arc}
+
+\usepackage[cal=cm, scr=rsfs, bb=ams]{mathalpha}
+
+\DeclareSymbolFont{PazoBB}{U}{fplmbb}{m}{n}
+\DeclareMathSymbol{\unity}{\mathord}{PazoBB}{"31}
+
+% \usepackage{fontspec}
+% \usepackage{unicode-math}
+
+% \setmathfont{LatinModern-Math.otf}
+
+% \DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+% \let\mathbb\relax % remove the definition by unicode-math
+% \DeclareMathAlphabet{\mathbb}{U}{msb}{m}{n}
+
+\parindent = 10pt
+\oddsidemargin=0in 
+\evensidemargin=0in 
+\topmargin=-.5in 
+\textwidth=6in 
+\textheight=9in
+
+\newcommand{\ges}{\geqslant}
+\newcommand{\les}{\leqslant}
+\newcommand{\vf}{\varphi}
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\hra}{\hookrightarrow}
+\newcommand{\lms}{\longmapsto}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\Ker}{\operatorname{Ker}}
+\newcommand{\Gl}{\operatorname{GL}}
+\newcommand{\Sl}{\operatorname{SL}}
+\newcommand{\fc}{{\mathfrak c}}
+\newcommand{\fp}{{\mathfrak p}}
+\newcommand{\fm}{{\mathfrak m}}
+\newcommand{\fn}{{\mathfrak n}}
+\newcommand{\fq}{{\mathfrak q}}\DeclareMathOperator{\trdeg}{trdeg}
+
+\newcommand\cechit[1]{\smash{\check{#1}}\vphantom{#1}}
+\DeclareMathOperator\chh{\cechit{\hh}}
+\DeclareMathOperator{\cone}{cone}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\pdim}{pdim}
+\DeclareMathOperator{\pd}{pdim}
+\DeclareMathOperator{\edim}{edim}
+\DeclareMathOperator{\gldim}{gl-dim}
+\DeclareMathOperator{\Tor}{Tor}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\mSpec}{mSpec}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Ass}{Ass}
+\DeclareMathOperator{\ann}{Ann}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Min}{Min}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\hgt}{height}
+\DeclareMathOperator{\height}{height}
+\DeclareMathOperator{\Der}{Der}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\sing}{Sing}
+\newcommand{\Ob}{\mathrm{Ob}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\susp}{\mathsf{\Sigma}}
+\DeclareMathOperator{\PO}{\mathbf{PO}}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\sign}{Sign}
+\DeclareMathOperator{\im}{Im}
+\DeclareMathOperator{\Span}{Span}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\hh}{H}
+\DeclareMathOperator{\grade}{grade}
+\DeclareMathOperator{\depth}{depth}
+\DeclareMathOperator{\soc}{Soc}
+\DeclareMathOperator{\TQ}{TQ}
+\DeclareMathOperator{\gr}{gr}
+\DeclareMathOperator{\ord}{ord}
+
+\DeclareMathOperator{\gl}{gl}
+\DeclareMathOperator{\chr}{char}
+\DeclareMathOperator{\rep}{rep}
+\DeclareMathOperator{\Rep}{Rep}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\ad}{ad}
+\DeclareMathOperator{\g}{\mathfrak{g}}
+
+\newcommand{\C}{\mathbb C}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\F}{\mathbb F}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\R}{\mathbb R}
+\newcommand{\A}{\mathbb A}
+\newcommand{\FF}{\mathbb F}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\ZZ}{\mathcal Z}
+\newcommand{\I}{\mathcal I}
+\newcommand{\arrow}{\overrightarrow}
+\newcommand{\xra}{\xrightarrow}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand{\forany}{\forall}
+\newcommand{\ind}{\raisebox{.45ex}{$\chi$}}
+\newcommand{\lt}{\left}
+\newcommand{\rt}{\right}
+
+
+\newenvironment{soln}{\begin{proof}[Solution]\hfill } {\end{proof}}
+
+\declaretheorem[numberwithin=section,name={Theorem}, refname = {theorem,theorems},Refname={Theorem,Theorems}]{thm}
+\declaretheorem[name={Lemma},sibling=thm, refname = {lemma,lemmas},Refname={Lemma,Lemmas}]{lem}
+\declaretheorem[sibling=thm,name=Corollary, refname={corollary, corollaries},Refname={Corollary,Corollaries}]{cor}
+\declaretheorem[sibling=thm,name=Proposition,refname={proposition,propositions},Refname={Proposition,Propositions}]{prop}
+\declaretheorem[sibling=thm,name=Definition,style=definition]{defn}
+\declaretheorem[sibling=thm,name=Construction,style=definition]{const}
+\declaretheorem[sibling=thm,name=Example,style=definition,refname={example,examples}, Refname={Example, Examples}]{xmpl}
+\declaretheorem[sibling=thm,name=Examples,style=definition,refname={example,examples}, Refname={Example, Examples}]{xmpls}
+\declaretheorem[sibling=thm,name=Exercise,style=definition,refname={exercise,exercises}, Refname={Exercise, Exercises}]{xcs}
+\declaretheorem[sibling=thm,style=remark,name=Remark,refname={remark,remarks}, Refname={Remark,Remarks}]{rmk}
+\declaretheorem[sibling=thm,style=remark,name=Observation,refname={obs,obsvs}, Refname={Observation,Observations}]{obs}
+\declaretheorem[sibling=thm,style=definition,name=Fact,refname={fact,facts},Refname={Fact,Facts}]{fact}
+\declaretheorem[style=remark,numbered=no,name=Remark]{rmk*}
+
+\declaretheorem[name=Problem,style=definition,refname={problem,problems}, Refname={Problem,Problems}]{problem}

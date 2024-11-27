@@ -13,6 +13,7 @@
 \DeclareMathOperator{\ob}{Obj}
 \DeclareMathOperator{\TT}{\mathcal{T}}
 \DeclareMathOperator{\cP}{\mathcal{P}}
+\DeclareMathOperator{\supp}{Supp}
 \DeclareMathOperator{\spc}{Spc}
 
 
@@ -248,7 +249,7 @@ Though not immediately obvious from the definition, it's worth noting that if $\
 Additionally, note that we are not distinguishing between left, right, or two-sided ideals. This is because our monoidal structure is symmetric, though it should be said that there is no reason that we couldn't consider a non-commutative analogue to the definition above in the scenario that we relax the condition that $\otimes$ be symmetric.
 \end{rmk}
 
-\subsection{The Spectrum of $\TT$}
+\subsection{Topology of the Spectrum}
 
 In the following section we will assume that $\TT$ is an essentially small tt-category.
 
@@ -280,14 +281,24 @@ where $\mathcal{S}_1 \oplus \mathcal{S}_2 = \{a \oplus b\:|\: a \in \mathcal{S}_
 It immediately follows that we can define a Zariski topology on $\spc \TT$ with closed sets $Z(S)$.
 
 \begin{defn}
-A subset $\mathcal{S} \subseteq \TT$ is called a \textbf{$\otimes$-multiplicative} subset if for any $a.b \in \mathcal{S}$, $a \otimes b \in \mathcal{S}$.
-\end{defn}
-
-\begin{defn}
 For any $a \in \Ob(\TT)$, we define $\Supp(a) = \{\mathcal{P}\:|\: a \not\in \cP\}$.
 \end{defn}
 
-\begin{prop}
+We could also define the topology using open sets of the form below:
+
+\begin{defn}
+Given $Z(\mathcal{S})$ a closed set in $\spc \TT$ define 
+\[
+	U(\mathcal{S})\coloneqq \spc \TT \setminus Z(\mathcal{S}) = \{\mathcal{P} \in \spc \TT: \mathcal{S} \cap \mathcal{P} \not = \emptyset\}
+\] 
+\end{defn}
+
+\begin{defn}
+A subset $\mathcal{S} \subseteq \TT$ is called a \textbf{$\otimes$-multiplicative} subset if for any $a.b \in \mathcal{S}$, $a \otimes b \in \mathcal{S}$.
+\end{defn}
+
+
+\begin{prop}\label{multsubprops}
 Let $\TT$ be a non-zero tt-category. Then, 
 \begin{enumerate}[1.]
 \item If $S \subseteq \TT$ is a $\otimes$-multiplicative subset which does not contain $0$, then there exists $\cP \in \spc \TT$ such that $\mathcal{S} \cap \cP = \emptyset$.
@@ -322,6 +333,39 @@ The paragraph above shows that $C$ is nonempty. Now let $\{J_i\}$ be an ascendin
 Maximal thick $\otimes$-ideals are prime.
 \end{cor}
 
+By definition $a$ is contained in every $\mathcal{P}$ in $\spc \TT$ if and only if $U(a) = \spc \TT$. Similarly, $a$ is contained in every $\mathcal{P} \in \spc \TT$ if and only if $\Supp a = \emptyset$.
+
+\begin{cor}
+	\begin{align*}
+		\bigcap_{\cP \in \spc \TT} \cP &= \{a \in \TT: U(a) = \spc \TT\}\\
+				&= \{a \in \TT: \Supp(a) = \emptyset\}\\
+				&= \{a \in \TT: a^{\otimes n} = 0 \text{ for some } n \in \N\}
+	\end{align*}
+\end{cor}
+\begin{proof}
+One direction is obvious, as $0 \in \cP$ for any $\cP \in \spc \TT$. Now suppose that $a^{\otimes n} \not = 0$ for any $n \in \N$ and let $\mathcal{S} = \{a^{\otimes n}\}_{n \in \N}$. $\mathcal{S}$ does not contain $0$ so by \autoref{multsubprops}, there exists $\cP \in \spc \TT$ such that $\mathcal{S} \cap \mathcal{P} = \emptyset$, but then $\Supp(a) \not = \emptyset$. By the contrapositive we both containments.
+\end{proof}
+
+\begin{cor} An object $a \not\in \cP$ for all $\cP \in \spc \TT$ if and only if $\la a \ra^{\otimes} = \TT$
+
+\end{cor}
+
+\begin{prop} Some properties of open sets of the form $U(a) = \{\cP \ : a \in \cP\}$ where $a \in \ob(\TT)$.
+\begin{enumerate}
+    \item $U(0) = \spc\TT$
+    \item $U(1) = \emptyset$
+    \item $U(a\otimes b) = U(a) \cap U(b)$
+    \item $U(\Sigma a) = U(a)$
+    \item $U(a) \supset U(b) \cap U(c)$ For any distinguished triangle $(a,b,c; f,g,h)$.
+    \item $U(a\otimes b) = U(a) \cup U(b)$
+\end{enumerate}
+\end{prop}
+
+\begin{rmk} The interaction between the tt structure and the Zariski topology can be interpreted as the support remembering more than just the additive structure.
+\end{rmk}
+
+\begin{cor} The collection $\{U(a)\ : a \in \TT\}$ provides an (open) basis for the topology. The collection $\{\supp(a) = \spc\TT\setminus U(a)\}$ provides a (closed) basis for the topology.
+\end{cor}
 
 \newpage
 

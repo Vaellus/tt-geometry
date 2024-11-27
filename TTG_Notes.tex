@@ -1,0 +1,446 @@
+\documentclass[11pt]{article}
+
+\input{"/home/wolfallred/Documents/LaTeX/preamble.tex"}
+\parindent = 10pt
+\oddsidemargin=0in 
+\evensidemargin=0in 
+\topmargin=-.5in 
+\textwidth=6.5in 
+\textheight=9in
+
+
+\DeclareMathOperator{\CC}{\mathcal{C}}
+\DeclareMathOperator{\ob}{Obj}
+\DeclareMathOperator{\TT}{\mathcal{T}}
+\DeclareMathOperator{\cP}{\mathcal{P}}
+\DeclareMathOperator{\spc}{Spc}
+
+
+\begin{document}
+
+\begin{centering}
+\Large{TT-Geometry Notes}\\
+
+\normalsize{Fall 2024 \\ Wolfgang Allred}
+
+\end{centering}
+\bigskip
+
+\noindent
+
+\large{\underline{WARNING FOR THE READER:}} \normalsize These notes are in progress and they are evolving as my understanding of the subject evolves. In fact, there should only be 3 people with eyes on this thing before it's ready for prime time, so if you're not one of those three people, then I don't know how you're reading this.
+
+This is aimed at those who have some experience with homological algebra, (some kind of) homotopy theory, and hopefully a little representation theory. I will try not to assume too much familiarity with triangulated categories, but I will refer the reader to other texts (most likely the Stacks Project) for proofs about general triangulated categories.
+
+\large{\underline{TO-DO}:}\normalsize
+\begin{enumerate}[$\bullet$]
+	\item Add more commentary.
+	\item Do more exercises.
+	\item More sections.
+\end{enumerate}
+
+
+\large{\underline{QUESTIONS}:}\normalsize
+\begin{enumerate}[$\bullet$]
+	\item Ask Julia about when we get an internal hom from the monoidal structure.
+\end{enumerate}
+
+\newpage
+\section{Introduction}
+
+\large{\textcolor{red}{[ADD: Write a brief introduction.]}} \normalsize
+
+First, a little categorical review.
+\begin{defn}[Monoidal Category]\label{monoidcat}
+a \textbf{monoidal category} is a category $\mathcal{C}$ equipped with
+\begin{enumerate}[1.]
+\item A functor 
+	\[
+		\otimes: \mathcal{C} \times \mathcal{C} \to \CC
+	\]called the \textbf{tensor product}.
+
+\item an object $1 \in \CC$ called the \textbf{unit object} or \textbf{tensor unit},
+\item a natural isomorphism 
+\[
+	\alpha: ((-)\otimes(-))\otimes(-) \xlongrightarrow{\sim} (-)\otimes((-)\otimes(-))
+\]
+of the form
+\[
+	\alpha_{x,y,z}: (x \otimes y) \otimes z \to x \otimes (y \otimes z)
+\] 
+called the \textbf{associator},
+\item natural isomorphisms
+\[
+	\lambda: (1 \otimes (-)) \xlongrightarrow{\sim} (-) \quad \text{and} \quad \rho: (-) \otimes 1 \xlongrightarrow{\sim}(-)
+\]
+of the form 
+\[
+	\lambda_x: 1 \otimes x \to x \quad \text{and} \quad \rho_x: x \otimes 1 \to x
+\]
+such that the following diagrams commute
+\[
+\begin{tikzcd}
+(x \otimes 1) \otimes y  \ar[dr,"\rho_x \otimes \id_y"']\ar[rr, "\alpha_{x,1,y}"] &   & x \otimes (1 \otimes y) \ar[ld, "\id_x \otimes \lambda_y"]\\
+  & x \otimes y &  \\
+\end{tikzcd}
+\]
+\[\begin{tikzcd}
+  & (w \otimes x) \otimes (y \otimes z) \ar[rd, "\alpha_{w,x,y \otimes z}"] &  \\
+	((w \otimes x) \otimes y) \otimes z \ar[ur, "\alpha_{w \otimes x, y ,z}"] \ar[d, "a_{w,x,y \otimes \id_z}"] &   & w \otimes (x \otimes (y \otimes z)) \\
+	(w \otimes ( x \otimes z)) \otimes z \ar[rr, "\alpha_{w,x \otimes y, z}"']  &   & w((x \otimes y) \otimes z) \ar[u, "\id_w \otimes \alpha_{x,y,z}"]  \\
+\end{tikzcd}\]
+\end{enumerate}
+We say that $\CC$ is a \textbf{symmetric monoidal category} or a \textbf{tensor category} if it is a braided monoidal category for which the braiding $B_{x,y}: x \otimes y \to y \otimes x$ has the property $B_{y,x}\circ B_{x,y} = \id_{x \otimes y}$ for all objects $x,y$ in $\CC$.\footnote{Not covered here are the finer details of what a braided monoidal category are.}
+\end{defn}
+
+\
+
+\large{\textcolor{red}{[ADD EXAMPLES ]}} \normalsize
+
+\
+
+\begin{defn}\label{tricat}
+A \textbf{triangulated category} is a triple $(\TT,\Sigma,\Delta)$ where $\TT$ is an additive category equipped with an auto-equivalence 
+\[
+	\Sigma: \TT \to \TT
+\] called the \textit{shift} or \textit{suspension} and a class $\Delta$ of \textbf{distinguished} or \textbf{exact} triangles
+\[
+	X \xlongrightarrow{f} Y \xlongrightarrow{g} Z \xlongrightarrow{h} \Sigma X
+\] sometimes rendered as 
+\[\begin{tikzcd}
+X \ar[rr,"f"] &  & Y \ar[dl,"g"]  \\
+  &  Z \ar[ul,dashed,"h"] &  \\
+\end{tikzcd}\]
+usually written more concisely $(X,Y,Z; f,g,h)$, satisfying the following axioms:
+\begin{enumerate}[TC1.]
+	\item (Bookkeeping)
+		\begin{enumerate}[a.]
+			\item $X \xlongrightarrow{\id} X \xrightarrow{0} \Sigma X$ is distinguished for each object $X \in \TT$.
+			\item Distinguished triangles are closed under isomorphisms.
+			\item $(X,Y,Z; f,g,h)$ is distinguished if and only if $(Y,Z,\Sigma X; g,h,-\Sigma f)$ is distinguished. This is called \textit{rotation}.
+		\end{enumerate}
+	\item (Cones) For each morphism $X \xlongrightarrow{f} Y$ there is an object $Z$ (unique up to non-unique isomorphism) sometimes written $\cone(f)$ which fits into a distinguished triangle 
+	\[
+		X \xlongrightarrow{f} Y \xlongrightarrow{g} Z \xlongrightarrow{h} \Sigma X
+	\]
+\item (Extension) Given two distinguished triangles $(X,Y,Z; f,g,h)$ and $(X',Y',Z'; f', g', h')$ and arrows $X \xlongrightarrow{\alpha} X'$ and $Y' \xlongrightarrow{\beta} Y'$ such that $\beta \circ f = f' \circ \alpha$, then there exists $Z \xlongrightarrow{\gamma} Z'$ making the diagram below commute
+\[\begin{tikzcd}
+X \ar[r,"f"] \ar[d,"\alpha"] & Y \ar[r,"g"] \ar[d,"\beta"] & Z \ar[r,"h"] \ar[d,dashed,"\exists \gamma"] & \Sigma X \ar[d,"\Sigma \alpha"]\\
+X'\ar[r,"f'"] & Y' \ar[r,"g'"] & Z' \ar[r,"h'"]& \Sigma X' \\
+\end{tikzcd}\]
+
+Such a commutative diagram is called a \textbf{morphism of triangles}.
+\item (Octohedral) Given a composition $X \xrightarrow{f} Y \xrightarrow{h} Z$ there exists dotted arrows which form an octohedral diagram,
+	\[\begin{tikzcd}
+	  & \cone(gf) \ar[ddr,dotted] &  \\
+	  &   &  \\
+	\cone(f) \ar[from=ddddr] \ar[dd,dashed] \ar[uur,dotted] &   & \cone(g) \ar[ll,dashed] \ar[ddddl,dashed] \\
+	  &   &  \\
+	 X \ar[ddr,"f"']\ar[from=ruuuu,crossing over, dashed] \ar[crossing over,rr,"gf"] &   & Z \ar[u u] \ar[crossing over, uuuul] \\
+	  &   &  \\
+	  & Y \ar[ruu,"g"'] &  \\
+	\end{tikzcd}\]
+	where each face is either a simplex commuting up to suspension,
+	\[\begin{tikzcd}
+	\bullet  \ar[rd]\ar[rr] &   & \bullet \\
+	  & \bullet \ar[ur]  &  \\
+	\end{tikzcd}\]
+	or a distinguished triangle
+	\[\begin{tikzcd}
+	\bullet  \ar[from=rd, dashed]\ar[rr] &   & \bullet \\
+	  & \bullet \ar[from =ur]  &  \\
+	\end{tikzcd}\]
+	For other more precise presentations of the octohedral axiom, refer to \hyperlink{octaxiom}{Appendix A}.
+\end{enumerate}
+\end{defn}
+
+\
+
+\large{\textcolor{red}{[ADD EXAMPLES]}} \normalsize
+
+\
+
+\begin{defn}[Tensor Triangulated Category]\label{ttcat}
+	A \textbf{tensor triangulated category} (or tt-category) is a category $\TT$ equipped with a tensor structure $(\TT, \otimes, 1)$ and a triangulated structure $(\TT,\Sigma,\Delta)$ and a natural isomorphism 
+	\[
+		e: \Sigma(-)\otimes Y \xrightarrow{\sim} \Sigma(- \otimes -)
+	\]
+	with components 
+	\[
+		e_{X,Y}: \Sigma X \otimes Y \xrightarrow{\sim} \Sigma(X \otimes Y)
+	\]
+	such that
+	\begin{enumerate}[1.]
+		\item $\otimes$ is additive and exact in both arguments (takes distinguished triangles to distinguished triangles),
+		\item $e$ satisfies the following commutative coherence pentagon for all objects $X,Y,Z$ in $\TT$.
+			\[\begin{tikzcd}
+			  &  \Sigma(X \otimes Y) \otimes Z \ar[from = dl, "e_{X,Y} \otimes \id_Z"] \ar[dr,"e_{X \otimes Y, Z}"] &  \\
+				(\Sigma X \otimes Y) \otimes Z \ar[d, "\alpha_{\Sigma X,Y,Z}"] &   & \Sigma((X \otimes Y) \otimes Z) \ar[d,"\Sigma \alpha_{X,Y,Z}"]\\
+\Sigma X \otimes (Y \otimes Z) \ar[rr,"e_{X,(Y \otimes Z)}"] &   & \Sigma(X \otimes ( Y \otimes Z))  \\
+			\end{tikzcd}\]
+		\item the topologist's sign rule is satisfied:
+\[\begin{tikzcd}
+	(\Sigma^a 1) \otimes (\Sigma^b 1) \ar[r,"\sim"] \ar[d,"B_{\Sigma^a 1,\Sigma^b 1}"] & \Sigma^{a+b}1 \ar[d,"(-1)^{ab}"]\\
+	(\Sigma^b 1) \otimes (\Sigma^a 1) \ar[r,"\sim"] & \Sigma^{a+b}1  \\
+\end{tikzcd}\]
+	\end{enumerate}
+\end{defn}
+
+\
+
+
+\large{\textcolor{red}{[ADD EXAMPLES]}} \normalsize
+
+
+
+\begin{defn}\label{tt-exact}
+Let $\TT$ and $\TT'$ be tt-categories. A functor $F: \TT \to \TT'$ is called an \textbf{exact functor} if it is equipped with functorial isomorphisms $\xi: F(\Sigma X) \to \Sigma F(X)$ such that an exact triangle $(X,Y,Z; f,g,h)$ in $\TT$ is taken to an exact triangle $(F(X),F(Y), F(Z); F(f), F(g), \xi_X F(h))$ in $\TT'$.
+
+Furthermore, $F$ is called \textbf{$\otimes$-exact} if $F(1_{\TT}) = 1_{\TT'}$ and if $F(X \otimes Y) \cong F(X)  \otimes F(Y)$. 
+\end{defn}
+
+\begin{defn}
+Given a triangulated category $(\TT,\Sigma,\Delta)$, a \textbf{triangulated subcategory} is a pair $(\CC,\Delta')$ such that
+\begin{enumerate}[1.]
+	\item $\CC$ is an full additive subcategory of $\TT$ which is preserved under $\Sigma$ such that $\Sigma: \CC \to \CC$ is an autoequivalence,
+	\item $\Delta' = \Delta \cap \CC$, and
+	\item $(\CC,\Sigma,\Delta')$ is a triangulated category.
+\end{enumerate}
+\end{defn}
+
+\begin{rmk}
+Note that the above definition immediately implies that if $X \to Y \to Z$ is a distinguished triangle in $\TT$ and $X,Y \in \CC$ then $Z \in \CC$.
+\end{rmk}
+
+We are now ready for our first proposition.
+
+\begin{prop}
+For objects $a,b,c \in \TT$ the distributive property holds:
+\[
+	(a \oplus b) \otimes c \cong (a \otimes c) \oplus (b \otimes c)
+\]
+\end{prop}
+\begin{proof}\label{distribute}
+By \autoref{tri-dir-sum} $a \xrightarrow{i_a} a \oplus b \xrightarrow{p_b} b \xrightarrow{0} \Sigma(a) $ is a distinguished triangle. By applying exactness of the $- \otimes c$ functor,
+\begin{equation}
+	a \otimes c \xrightarrow{i_a \otimes id_c} (a \oplus b) \otimes c \xrightarrow{p_b \otimes \id_c} b \otimes c \xrightarrow{ 0} \Sigma(a) \otimes c
+\end{equation}
+is distinguished, as is
+\begin{equation}
+	a \otimes c \xrightarrow{i_{a \otimes c}} (a \otimes c) \oplus (b \otimes c) \xrightarrow{p_{b \otimes c}} b \otimes c \xrightarrow{0} \Sigma(a \otimes c)
+\end{equation}
+by another application of \autoref{tri-dir-sum}. By applying TR1(rotation), T2, and T3 we can get a morphism of distinguished triangles between the triangles on lines (1) and (2) above that is the identity on the first and third components and an isomorphism on the fourth as $\Sigma(a \otimes c) \cong \Sigma(a) \otimes c$. By \autoref{tri-five} $(a \oplus b) \otimes c \cong (a \otimes c) \oplus (b \otimes c)$.
+\end{proof}
+
+\begin{rmk}
+Tensor Triangular geometry is largely inspired by the rich geometry found in the realm of ring spectra, though I would argue that it is not immediately obvious from the definitions above that one should be able to develop such a theory on tt-categories. It's also worth noting that we could have proved this proposition if our category had an internal-hom strucure (more on this later), but this proof makes it clear that distributivity of the tensor product over direct sums directly comes from the triangular structure communicating well with the tensor structure, which is a hint that our tt-category might secretly behave somewhat like a ring. With this in mind, we shall seek out other parallels between tt-categories and commutative rings.
+\end{rmk}
+
+\begin{defn}
+If $\TT$ is a triangulated category then we call $\CC \subseteq T$ a \textbf{thick subcategory} if it is a triangulated subcategory of $\TT$ and $\CC$ is closed under sums, meaning that $a,b \in \CC$ if and only if $a \oplus b \in \CC$.
+
+If $\CC$ is as thick subcategory of $\TT$ that is closed under $\otimes$, i.e. $a \in \CC$ and $b \in \TT$ implies that $a \times b \in \CC$, then we say that it is a \textbf{thick $\otimes$-ideal}. Given an object $a \in \TT$, we write $\la a \ra^\otimes$ to denote the $\otimes$-ideal generated by $a$. Equivalently, this is the smallest $\otimes$-ideal containing $a$.
+\end{defn}
+
+\begin{rmk}
+Though not immedetiately obvious from the definition, it's worth noting that if $\mathcal{I}$ is a triangulated subcategory of $\TT$ then $a,b \in \CC$ implies that $a \otimes b \in \CC$, so $\CC$ being thick only adds the requirement that direct sums of objects in $\TT$ decompose within $\CC$.
+
+Additionally, note that we are not distinguishing between left, right, or two-sided ideals. This is because our monoidal structure is symmetric, though it should be said that there is no reason that we couldn't consider a non-commutative analogue to the definition above in the scenario that we relax the condition that $\otimes$ be symmetric.
+\end{rmk}
+
+\subsection{The Spectrum of $\TT$}
+
+In the following section we will assume that $\TT$ is an essentially small tt-category.
+
+\begin{defn}
+A thick $\otimes$-ideal $\mathcal{P} \subseteq \TT$ is called \textbf{prime} if for any $a,b \in \ob(\TT)$ such that $a \otimes b \in \mathcal{P}$ then either $a \in \mathcal{P}$ or $b \in \mathcal{P}$. We define $\spc \TT$ to be the collection of all prime $\otimes$-ideals in $\TT$. A \textbf{maximal} $\otimes$-ideal is a proper $\otimes$-ideal of $\TT$ that is maximal with respect to inclusion.
+\end{defn}
+
+Later on we will define $\Spec \TT $ to be the set $\spc \TT$ equipped with a particular ringed space structure, so we will hold the notation $\Spec \TT$ in reserve until then. To put a ringed space structure on $\spc \TT$, we first need to put a toplogy on $\TT$.
+
+\begin{defn}
+For any $\mathcal{S} \subseteq \ob(\TT)$, we write $Z(S) \coloneqq \{\cP \in \spc \TT\:|\:\mathcal{S}\cap \cP = \emptyset\}$.
+\end{defn}
+
+
+\begin{prop}
+For any tt-category $\TT$ the following hold:
+\begin{enumerate}[1.]
+	\item $\bigcap_{i \in I}Z(\mathcal{S}_i) = Z(\bigcup_{i \in I}\mathcal{S}_i)$ for a family $\{\mathcal{S}_i\}_{i \in I}$ where $\mathcal{S}_i \subseteq \ob(\TT)$ for each $i \in I$.
+	\item $Z(\mathcal{S}_1 \oplus \mathcal{S}_2) = Z(\mathcal{S}_1) \cup Z(\mathcal{S}_2)$ 
+	\item $Z(\TT) = \emptyset$
+	\item $Z(\emptyset) = \spc \TT$
+\end{enumerate}
+where $\mathcal{S}_1 \oplus \mathcal{S}_2 = \{a \oplus b\:|\: a \in \mathcal{S}_1, b \in \mathcal{S}_2\}$.
+\end{prop}
+
+It immediately follows that we can define a Zariski topology on $\spc \TT$ with closed sets $Z(S)$.
+
+\begin{defn}
+A subset $\mathcal{S} \subseteq \TT$ is called a \textbf{$\otimes$-multiplicative} subset if for any $a.b \in \mathcal{S}$, $a \otimes b \in \mathcal{S}$.
+\end{defn}
+
+\begin{defn}
+For any $a \in \Ob(\TT)$, we define $\Supp(a) = \{\mathcal{P}\:|\: a \not\in \cP\}$.
+\end{defn}
+
+\begin{prop}
+Let $\TT$ be a non-zero tt-category. Then, 
+\begin{enumerate}[1.]
+\item If $S \subseteq \TT$ is a $\otimes$-multiplicative subset which does not contain $0$, then there exists $\cP \in \spc \TT$ such that $\mathcal{S} \cap \cP = \emptyset$.
+\item If $\mathcal{C} \subseteq \TT$ is a proper thick $\otimes$-ideal then there exists a proper maximal $\otimes$-ideal $\mathcal{M} \subseteq \TT$ such that $\CC \subseteq \mathcal{M} \subset \TT$.
+	\item $\spc \TT \not = \emptyset$
+\end{enumerate}
+\end{prop}
+
+The proof of this proposition follows easily from an application of the lemma below to the ideals generated by $0$, $\mathcal{C}$, and $1$ respectively.
+
+\begin{lem}
+Let $\mathcal{I}$ be a $\otimes$-ideal of $\TT$ and $\mathcal{S} \subseteq \TT$ a $\otimes$-multiplicative subset. If $\mathcal{I} \cap \mathcal{S} = \emptyset$ then there exists $\cP \in \spc \TT$ such that $\mathcal{I} \subseteq \cP$ and $\cP \cap \mathcal{S} = \emptyset$.
+\end{lem}
+\begin{proof}
+Define $\mathcal{J} \coloneqq \{a \in \TT: \exists s \in S, a \otimes s \in \mathcal{I}\}$. I claim that this is a thick $\otimes$-ideal containing $\mathcal{I}$. Clearly $\mathcal{I} \subseteq \mathcal{J}$ since $a \otimes x \in \mathcal{I}$ for any $a \in \mathcal{I}$ and any $x \in \TT$. Now suppose that $a \xrightarrow{f} b$ is a morphism in $\mathcal{J}_0$. Since $a,b \in \mathcal{J}$ there are $s,s' \in S$ such that $a \otimes s, b \otimes s \in \mathcal{I}$. In fact, we can just take $s = s'$ by replacing $s$ with $s \otimes s'$ since $a \otimes s \in \mathcal{I}$ implies that $a \otimes s \otimes s' \in \mathcal{I}$ and $s \otimes s' \in S$. Now examine the diagram below:
+\[\begin{tikzcd}
+a \otimes s \ar[r,"f \otimes \id_s"] \ar[d,equal] & b \otimes s \ar[d,equal] \ar[r] & \cone(f \otimes \id_s) \ar[r] \ar[d,dashed,leftrightarrow] & \Sigma(a \otimes s) \ar[d, equal]\\
+ a \otimes s \ar[r,"f \otimes \id_s"]& b \otimes s \ar[r] & \cone(f) \otimes s \ar[r] &  \Sigma(a) \otimes s \\
+\end{tikzcd}\]
+the dotted arrow exists by TC3 of \autoref{tricat}. By \autoref{tri-five} $\cone(f) \times s \cong \cone(f \otimes \id_s)$. Since $\mathcal{I}$ is a thick subcategory and $a \otimes s, b \otimes s \in \mathcal{I}$ it follows that $\cone(f) \otimes s \cong \cone(f \otimes \id_s) \in \mathcal{I}$. Therefore, $\cone(f) \in \mathcal{J}$, so $\mathcal{J}$ is a tensor subcategory of $\TT$. Now suppose that $a \oplus b \in \mathcal{J} $, so $\exists s \in S $ such that $(a \oplus b) \otimes s \in \mathcal{I}$. Then, since $(a \oplus b) \otimes s \cong (a \otimes s) \oplus (b \otimes s)$ it follows that $a \otimes s, b \otimes s \in \mathcal{I}$, so $a,b \in \mathcal{J}$. Additionally, $\mathcal{J} \cap \mathcal{S}$ since if $a \in \mathcal{S} \cap \mathcal{J}$ then $\exists s \in \mathcal{S}$ such that $a \otimes s \in \mathcal{I}$, but then $a \otimes s \in \mathcal{I} \cap \mathcal{S}$ as $a,s \in \mathcal{S}$ implies that $a \otimes s$ as $\mathcal{S}$ is $\otimes$-multiplicatively closed, which is a contradiction.
+
+Now let $C$ be the collection of thick $\otimes$-ideals $\mathcal{J}$ where 
+\begin{enumerate}[(1)]
+	\item $\mathcal{J} \cap \mathcal{S} = \emptyset$,
+	\item If $a \in \mathcal{T}$ such that there is some $s \in \mathcal{S}$ where $a \otimes s \in \mathcal{J}$, then $a \in \mathcal{J}$
+	\item $\mathcal{I} \subseteq \mathcal{J}$
+\end{enumerate}
+The paragraph above shows that $C$ is nonempty. Now let $\{J_i\}$ be an ascending chain (via containment) within $C$. Then clearly the full subcategory of $\TT$ generated by the union of the objects within $\{J_i\}$ is also a thick $\otimes$-ideal satisfying the conditions above, so by Zorn's lemma there exists a maximal element $\mathcal{P}$ of $C$. To see that $\mathcal{P}$ is prime, suppose that $a \times b \in \mathcal{P}$ and $b \not\in P$. Then define $(\mathcal{P}:a)$ to be the full subcategory of $\TT$ generated by $\{x \in \TT: x \otimes a \in \mathcal{P}\}$. This subcategory is easily shown to be a thick $\otimes$-ideal of $\TT$ by essentially the same methods used to show that $\mathcal{J}$ above was a rhick $\otimes$-ideal. If $x \in \mathcal{P}$ then $x \otimes a \in \mathcal{P}$ by definition of a $\otimes$-ideal, so $\mathcal{P} \subset (\mathcal{P}: a)$, but $b \in (\mathcal{P}: a) \setminus \mathcal{P}$, so the containment is proper. Hence $(\mathcal{P}:a) \not\in C$, so one of the three properties above fails for $(\mathcal{P}:a)$. Clearly it can't be condition (3), so suppose that $x \in \TT$ such that there is some $s \in \mathcal{S}$ where $x \otimes s \in (\mathcal{P}: a)$. Then $x \otimes s \otimes a \in \mathcal{P}$, but by condition $(2)$ this implies that $x \otimes a \in \mathcal{P}$, and therefore $x \in (\mathcal{P}:a)$. Therefore the only condition that $(\mathcal{P}:a)$ could fail is $(2)$, which means that $\exists s \in (\mathcal{P}:a) \cap S$, so $a \otimes s \in \mathcal{P}$. But then $a \in \mathcal{P}$ by condition (2). Hence $\mathcal{P}$ is prime.
+\end{proof}
+
+\begin{cor}
+Maximal thick $\otimes$-ideals are prime.
+\end{cor}
+
+
+\newpage
+
+
+\section{Appendix A - Triangulated Categories}
+\subsection{The Octohedral Axiom}\label{octaxiom}
+Here is an undiagrammatic presnetation of T4: Given a composition $X \xrightarrow{f} Y \xrightarrow{g} Z$ and distinguished triangles $(X,Y,Z'; f_1, p_1, d_1)$, $(X,Z,Y'; g\circ f, p_2, d_2)$, and $(Y,Z,X'; g, p_3, d_3)$, there exist morphisms $Z' \xrightarrow{a} Y'$ and $Y' \xrightarrow{b} X'$ such that
+	\begin{enumerate}[(a)]
+		\item $(Z',Y',X'; a,b,\Sigma p_1 \circ d_3)$ is exact,
+		\item the triple $(\id_X,g,a)$ is a morphism of triangles $(X,Y,Z'; f,p_1,d_1) \to (X,Z,Y'; g\circ f,p_2,d_2)$, and
+		\item the triple $(f,\id_Z,b)$ is a morphism of triangles $(X,Z,Y'; g\circ f, p_2, d_2) \to (Y,Z,X'; g, p_3, d_3)$.
+	\end{enumerate}
+	Here one should think of $Z' = \cone(f)$, $Y' = \cone(gf)$ and $X' = \cone(g)$.
+
+Here is yet another presentation, utilizing a different diagram. 
+\[\begin{tikzcd}
+  &   &   & {} & &  \\
+  &   &   &   &   &  \\
+  &   & Z' \ar[ruu,"d_1"]\ar[ddr,"\exists a",dotted] &   &  &  \\
+  &   &   &   & {}  &  \\
+  & Y\ar[rd,"g"] \ar[ruu,"p_1"] &   & Y'\ar[ru,"d_2"] \ar[rdd,"\exists b", dotted]&   &  \\
+  &   & Z \ar[ru,"p_2"] \ar[drr,"p_3"] &   &   &  \\
+X \ar[ruu,"f"]  \ar[urr,"gf"]&   &   &   & X' \ar[rd,"d_3"] \ar[rdd,"(\Sigma p_1) \circ d_3"'] &  \\
+  &   &   &   &   & {} \\
+  &   &   &   &   & {} \\
+\end{tikzcd}\]
+This view emphasizes some of the intuition of the octohedral axiom a little more clearly. Since exact triangles are supposed to be thought of as playing the role of exact sequences, we might want to think of our cones as quotients, i.e. $Z' = Y/X$, $Y' = Z/X$. For $X'$ we have $X' = Z/Y$ from the triangle $Y \to Z \to X' \to ... $ and $X' = Y'/Z'$ from the triangle $Z' \to Y' \to X' \to ...$. Then, 
+\[
+	(Z/X)/(Y/X) \cong (Y')/(Z') \cong X' \cong Z/Y
+\]
+This looks a lot like the third isomorphism theorem, and so one way to view the octohedral axiom is as a coherence condition enforcing the kind of quotient isomorphisms that we expect to see in algebraic settings.
+
+\subsection{Definitions and Elementary Results}
+
+\begin{defn}
+Let $\TT$ be a triangulated category and $\mathcal{A}$ an abelian category. An additive functor $H: \TT \to \mathcal{A}$ is called \textbf{homological} if for every distinguished triangle $(X,Y,Z; f,g,h)$ the sequence given by the image
+\[
+	H(X) \to H(Y) \to H(Z)
+\]
+is exact in $\mathcal{A}$. An additive functor $H: \TT^{\text{opp}} \to \mathcal{A}$ is called \textbf{cohomological} if the corresponding opposite functor $\TT \to \mathcal{A}^{\text{opp}}$ is homological.
+
+If $H: \TT \to \mathcal{A}$ is homological then we'll write $H_n(X) \coloneqq H(\Sigma^n X)$ and $H_0(X) \coloneqq H(X)$. Then, this means that for every distinguished triangle $(X,Y,Z; f,g,h)$ we get a long exact sequence 
+\[
+	\hdots \to H_{-1}(Z) \to H_{0}(X) \to H_0(Y) \to H_0(Z) \to H_0(\Sigma X) = H_1(X) \to \hdots
+\]
+The long exact sequence associated to $(X,Y,Z; f,g,h)$ by $H$ is called the \textbf{long exact sequence} associated to the triangle by $H$.
+\end{defn}
+
+\begin{defn}
+Let $\TT$ be a triangulated category and $\mathcal{A}$ an abelian category. A \textbf{$\delta$-functor} between $\mathcal{A}$ and $\TT$ is functor $G: \mathcal{A} \to \mathcal{T}$ and functorial assignment from short exact sequences $0 \to A \xrightarrow{f} B \xrightarrow{g} C \to 0$ in $\mathcal{A}$ to distinguished triangles in $\TT$. Explicitly, for any $0 \to A \xrightarrow{f} B \xrightarrow{g} C \to 0$ there is a morphism $\delta_{f,g}: G(C) \to \Sigma G(A)$ such that
+\begin{enumerate}[i.]
+	\item $(G(A),G(B),G(C); G(f),G(g),\delta_{f,g})$ is a distinguished triangle, and
+	\item For any morphism of short exact sequences $\phi: (A \xrightarrow{f} B \xrightarrow{g} C) \to (A' \xrightarrow{f'} B' \xrightarrow{g'} C')$ the diagram 
+		\[\begin{tikzcd}
+G(C) \ar[r,"\delta_{fg}"] \ar[d,"G(\phi_C)"'] & \Sigma G(A) \ar[d,"\Sigma G(\phi_A)"] \\
+G(C') \ar[r,"\delta_{f'g'}"'] & \Sigma G(A') \\
+		\end{tikzcd}\]
+\end{enumerate}
+\end{defn}
+
+The two definitions above are of critical importance as they axiomatize the relationship between short exact sequences and their derived long exact counterparts. As one should expect, for any $A \in \TT$ the functor $\Hom_{\TT}(A,-)$ is homological and $\Hom_{\TT}(-,A)$ is cohomological.
+
+\begin{lem}
+If $\TT$ is a triangulated category and $(X,Y,Z; f,g,h)$ is a distinguished triangle then $g\circ f,h\circ g,\Sigma f\circ h$ are all the zero map.
+\end{lem}
+\begin{proof}
+From TR1 we know that $(X,X,0; \id_X, 0,0)$ is distinguished. Then by TR3 we know that the dashed map below exists making the diagram commute
+\[\begin{tikzcd}
+X \ar[r,"\id_X"] \ar[d, equal] & X \ar[r] \ar[d,"f"] & 0 \ar[d,dashed] \ar[r] & \Sigma X \ar[d,equal]\\
+X \ar[r,"f"] & Y \ar[r,"g"] & Z \ar[r,"h"] & \Sigma X\\
+\end{tikzcd}\]
+but the dashed map must be the zero map, and so by commutivity $g\circ f= 0 $. The other compositions follow from rotation of the triangle.
+\end{proof}
+
+\begin{prop}
+For any object $A \in \TT$ the functor $\Hom_{\TT}(A,-)$ is homological and $\Hom_{\TT}(-,A)$ is cohomological.
+\end{prop}
+\begin{proof}
+Since $\TT$ is an additive category $\Hom_{\TT}(-,A)$ is an additive functor. By the lemma previous $\Hom_{\TT}(-,A)$ takes distinguished triangles to chain complexes of abelian groups, so it remains to show exactness. Let $(X,Y,Z; f,g,h)$ be a distinguished triangle. Then using T3 and rotation, given $\phi \in \Hom_{\TT}(A,Z)$ we can find $\psi$ such that the diagram below commutes:
+\[\begin{tikzcd}
+0 \ar[r] \ar[d] & A \ar[r] \ar[d,dashed,"\exists \psi"] & A \ar[d,"\phi"] \ar[r] & 0 \ar[d]\\
+X \ar[r,"f"] & Y \ar[r,"g"] & Z \ar[r,"h"] & \Sigma X\\
+\end{tikzcd}\]
+Therefore, $g\circ\psi = \phi$. We can do the same for each position in the triangle, and therefore we have exactness of the long exact sequence induced by $\Hom_{\TT}(A,-)$. The proof for $\Hom_{\TT}(-,A)$ is analogous.
+\end{proof}
+\begin{prop}\label{tri-five}
+If $(\alpha,\beta,\gamma):(X,Y,Z; f,g,h) \to (X',Y',Z'; f',g',h')$ is a morphisms of distinguished triangles such that any two of $\alpha,\beta,\gamma$ are isomorphisms, then the third is also an isomorphism.
+\end{prop}
+\begin{proof}
+Without loss of generality assume that $\alpha$ and $\gamma$ are isomorphisms. Then let $A \in \ob(\TT)$. Abbreviate $\Hom_{\TT}(A,-)$ as $H_A$. Then all the maps in the diagram below are isomorphisms, save for the middle one:
+\[\begin{tikzcd}
+	H_A(\Sigma Z) \ar[r] \ar[d] & H_A(X) \ar[r] \ar[d] & H_A(Y) \ar[d] \ar[r] & H_A(Z) \ar[d] \ar[r]& H_A(\Sigma X) \ar[d]\\
+	H_A(Z') \ar[r] & H_A(X') \ar[r] & H_A(Y') \ar[r] & H_A(Z') \ar[r]& H_A(\Sigma X')  \\
+\end{tikzcd}\]
+Then, by the 5-lemma, the middle map is an isomorphism, so $\Hom_{\TT}(A,Y) \cong \Hom_{\TT}(A,Y')$ via $\Hom_{\TT}(\beta, A)$ for any arbitrary $A$. By Yoneda's lemma it follows that $Y \xrightarrow{\beta} Y'$ is an isomorphism.
+\end{proof}
+
+\begin{rmk}\label{specialtriangles}
+This proof actually give us a little more than advertised. It says that if we have a morphism of (not necessarily distinguished) triangles $(\alpha,\beta,\gamma): (X,Y,Z; f,g,h) \to (X',Y',Z'; f',g',h')$ such that the long exact sequences coming from $\Hom_{\TT}(W,-)$ on the triangles are exact for all $W \in \ob(\TT)$, then any two of $\alpha,\beta,\gamma$ being isomorphisms implies that the third is an isomorphism. It's worth pointing this out since this conclusion is slightly stronger as there are triangles for which this condtion holds that are not distinguished.
+\end{rmk}
+
+\begin{cor}\label{sumoftriangles}
+	Given triangles $(X,Y,Z; f,g,h)$ and $(X',Y',Z'; f',g',h')$, the triangle
+	\[
+		(X \oplus X', Y \oplus Y', Z \oplus Z'; f+f', g+g', h+h')
+	\]
+	is distinguished if and only if both $(X,Y,Z; f,g,h)$ and $(X',Y',Z'; f',g',h')$ are distinguished.
+\end{cor}
+\begin{proof}
+Assume that the two individual triangles are distinguished. By T2 there exists $Q$ such that $(X \oplus X', Y \oplus Y', Q; f+f', g'', h'')$ is distinguished. By T3 there are morphisms from $(X,Y,Z; f,g,h)$ and $(X',Y',Z'; f',g',h')$ into $(X \oplus X', Y \oplus Y', Q; f+f', g'', h'')$ induced by the inclusion maps from the components of the triangles into their direct sums. This in turn induces a map 
+\[
+	(X \oplus X', Y \oplus Y', Z \oplus Z'; f+f', g+g', h+h') \xrightarrow{(\id,\id,\alpha)}(X \oplus X', Y \oplus Y', Q; f+f', g'', h'')
+\]
+By \autoref{tri-five}, $\alpha$ is an isomorphism and therefore the direct sum of triangles is distinguished.
+
+Now suppose that the direct sum is distinguished. We will show that $(X,Y,Z; f,g,h)$ is distinguished, and by symmetry the result will follow. Using $T2$ and $T3$ there is a distinguished triangle $(X,Y,Q; f,g'',h'')$ and a morphism of distinguished triangles $(\pi_X,\Pi_Y, p): (X \oplus X', Y \oplus Y', Z \oplus Z'; f+f', g+g', h+h') \to (X,Y,Q; f,g'',h'')$. We can then get a morphism of triangles $(X,Y,Z; f,g,h) \to (X,Y,Q; f,g'',h'')$ by precomposing with the inclusion maps coming from $X,Y,Z$. The long exact sequence on $(X \oplus X', Y \oplus Y', Z \oplus Z'; f+f', g+g', h+h')$ coming from $\Hom_{\TT}(W,-)$ will split into the direct sum of exact complexes coming from $(X,Y,Z; f,g,h)$ and $(X',Y',Z'; f',g',h')$ and therefore $(X,Y,Z; f,g,h)$ satisfies the condition in $\autoref{specialtriangles}$. Therefore, the morphism $(X,Y,Z; f,g,h) \to (X,Y,Q; f,g'',h'')$ of triangles is a morphism on the third component since the other two components are the identity map. Hence, $(X,Y,Z; f,g,h)$ is isomorphism to a distinguished triangle and is therefore itself distinguished.
+\end{proof}
+
+\begin{cor}\label{tri-dir-sum}
+For any two objects $A$ and $B$ of $\TT$, the triangle $(A, A \oplus B, B; (\id_A,0), (0,\id_B),0)$ is distinguished. 
+\end{cor}
+\begin{proof}
+Apply \autoref{sumoftriangles} to the distinguished triangles $(A,A,0; \id_A,0,0)$ and $(0,B,B; 0,\id_B,0)$.
+\end{proof}
+\end{document}

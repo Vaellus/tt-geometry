@@ -10,12 +10,13 @@
 
 
 \DeclareMathOperator{\CC}{\mathcal{C}}
+\DeclareMathOperator{\CS}{\mathcal{S}}
+\DeclareMathOperator{\cS}{\mathcal{S}}
 \DeclareMathOperator{\ob}{Obj}
 \DeclareMathOperator{\TT}{\mathcal{T}}
 \DeclareMathOperator{\cP}{\mathcal{P}}
 \DeclareMathOperator{\supp}{Supp}
 \DeclareMathOperator{\spc}{Spc}
-
 
 \begin{document}
 
@@ -47,11 +48,13 @@ This is aimed at those who have some experience with homological algebra, (some 
 \end{enumerate}
 
 \newpage
+\tableofcontents
+
 \section{Introduction}
 
 \large{\textcolor{red}{[ADD: Write a brief introduction.]}} \normalsize
 
-First, a little categorical review.
+\subsection{Definitions}
 \begin{defn}[Monoidal Category]\label{monoidcat}
 a \textbf{monoidal category} is a category $\mathcal{C}$ equipped with
 \begin{enumerate}[1.]
@@ -112,13 +115,13 @@ A \textbf{triangulated category} is a triple $(\TT,\Sigma,\Delta)$ where $\TT$ i
 X \ar[rr,"f"] &  & Y \ar[dl,"g"]  \\
   &  Z \ar[ul,dashed,"h"] &  \\
 \end{tikzcd}\]
-usually written more concisely $(X,Y,Z; f,g,h)$, satisfying the following axioms:
+sometimes written more concisely as $(X,Y,Z; f,g,h)$, satisfying the following axioms:
 \begin{enumerate}[TC1.]
 	\item (Bookkeeping)
 		\begin{enumerate}[a.]
-			\item $X \xlongrightarrow{\id} X \xrightarrow{0} \Sigma X$ is distinguished for each object $X \in \TT$.
+			\item $X \xrightarrow{\id} X \xrightarrow{} 0 \to \Sigma X$ is distinguished for each object $X \in \TT$.
 			\item Distinguished triangles are closed under isomorphisms.
-			\item $(X,Y,Z; f,g,h)$ is distinguished if and only if $(Y,Z,\Sigma X; g,h,-\Sigma f)$ is distinguished. This is called \textit{rotation}.
+			\item $X \xra{f} Y \xra{g} Z \xra{h} \Sigma X $ is distinguished if and only if $Y \xra{g} Z\xra{h} \Sigma X \xra{-\Sigma f} \Sigma Y $ is distinguished. This is called \textit{rotation}.
 		\end{enumerate}
 	\item (Cones) For each morphism $X \xlongrightarrow{f} Y$ there is an object $Z$ (unique up to non-unique isomorphism) sometimes written $\cone(f)$ which fits into a distinguished triangle 
 	\[
@@ -249,9 +252,13 @@ Though not immediately obvious from the definition, it's worth noting that if $\
 Additionally, note that we are not distinguishing between left, right, or two-sided ideals. This is because our monoidal structure is symmetric, though it should be said that there is no reason that we couldn't consider a non-commutative analogue to the definition above in the scenario that we relax the condition that $\otimes$ be symmetric.
 \end{rmk}
 
-\subsection{Topology of the Spectrum}
+\newpage
+
+\section{The Spectrum of \texorpdfstring{$\TT$}{𝓣}}
 
 In the following section we will assume that $\TT$ is an essentially small tt-category.
+
+\subsection{Definition of Spc\texorpdfstring{$\TT$}{𝓣}}
 
 \begin{defn}
 A thick $\otimes$-ideal $\mathcal{P} \subseteq \TT$ is called \textbf{prime} if for any $a,b \in \ob(\TT)$ such that $a \otimes b \in \mathcal{P}$ then either $a \in \mathcal{P}$ or $b \in \mathcal{P}$. We define $\spc \TT$ to be the collection of all prime $\otimes$-ideals in $\TT$. A \textbf{maximal} $\otimes$-ideal is a proper $\otimes$-ideal of $\TT$ that is maximal with respect to inclusion.
@@ -262,7 +269,6 @@ Later on we will define $\Spec \TT $ to be the set $\spc \TT$ equipped with a pa
 \begin{defn}
 For any $\mathcal{S} \subseteq \ob(\TT)$, we write $Z(S) \coloneqq \{\cP \in \spc \TT\:|\:\mathcal{S}\cap \cP = \emptyset\}$.
 \end{defn}
-
 
 \begin{prop}
 For any tt-category $\TT$ the following hold:
@@ -275,7 +281,13 @@ For any tt-category $\TT$ the following hold:
 where $\mathcal{S}_1 \oplus \mathcal{S}_2 = \{a \oplus b\:|\: a \in \mathcal{S}_1, b \in \mathcal{S}_2\}$.
 \end{prop}
 \begin{proof}
-\large{\textcolor{red}{ADD THIS PROOF}}
+\
+
+\begin{enumerate}[1.]
+	\item  $\cP \in \bigcap_{i \in I}Z(\cS_i)$ if and only if $\cP \cap \cS_i = \emptyset$ for all $i \in I$ if and only if $\cP \cap \left(\bigcup_{i \in I}\cS_i \right) = \emptyset $ if and only if $\cP \in Z(\bigcup_{i \in I}\cS_i)$.
+	\item If $\mathcal{P} \not\in Z(\CS_1 \oplus \CS_2)$ then $\exists a \oplus b \in \cP$ where $a \in \CS_1,b \in \CS_2$. But as $\cP$ is a thick $\otimes$-ideal $a,b \in \cP$, so $\cP$ intersects both $\CS_1$ and $\CS_2$ nontrivially and therefore $\cP \not\in Z(\CS_1) \cup Z(\CS_2)$. On the other hand, if $\cP$ is not in either $Z(\CS_1)$ or $Z(\CS_2)$ then $\cP$ must intersect both $\CS_1$ and $\CS_2$, so take $a \in \cP \cap \CS_1$ and $b \in \cP \CS_2$. Then $a \oplus b \in \cP$ and therefore $\cP \cap \CS_1 \cap \CS_2 \not = \emptyset$, so $\cP \not\in Z(\CS_1 \oplus \CS_2)$.
+\end{enumerate}
+3. and 4. are obvious from the definition.
 \end{proof}
 
 It immediately follows that we can define a Zariski topology on $\spc \TT$ with closed sets $Z(S)$.
@@ -297,6 +309,9 @@ Given $Z(\mathcal{S})$ a closed set in $\spc \TT$ define
 A subset $\mathcal{S} \subseteq \TT$ is called a \textbf{$\otimes$-multiplicative} subset if for any $a.b \in \mathcal{S}$, $a \otimes b \in \mathcal{S}$.
 \end{defn}
 
+% \begin{rmk}
+% Some of these definitions may seem a little odd to those used to commutative alegbra. One way to think about this is how we may form the Verdier quotient $\pi: \TT \to \TT/\cP$ where the kernel of $\pi$ is $\cP$. In this context one can see that an object $a$ is nonzero in the quotient if and only if $a \not\in \cP$.
+% \end{rmk}
 
 \begin{prop}\label{multsubprops}
 Let $\TT$ be a non-zero tt-category. Then, 
@@ -350,7 +365,7 @@ One direction is obvious, as $0 \in \cP$ for any $\cP \in \spc \TT$. Now suppose
 
 \end{cor}
 
-\begin{prop} Some properties of open sets of the form $U(a) = \{\cP \ : a \in \cP\}$ where $a \in \ob(\TT)$.
+\begin{prop} Some properties of open sets of the form $U(a) = \{\cP \in \spc\TT \ : a \in \cP\}$ where $a \in \ob(\TT)$.
 \begin{enumerate}
     \item $U(0) = \spc\TT$
     \item $U(1) = \emptyset$
@@ -361,14 +376,53 @@ One direction is obvious, as $0 \in \cP$ for any $\cP \in \spc \TT$. Now suppose
 \end{enumerate}
 \end{prop}
 
-\begin{rmk} The interaction between the tt structure and the Zariski topology can be interpreted as the support remembering more than just the additive structure.
+\begin{rmk} The interaction between the tt-structure and the Zariski topology can be interpreted as the support remembering more than just the additive structure.
 \end{rmk}
 
-\begin{cor} The collection $\{U(a)\ : a \in \TT\}$ provides an (open) basis for the topology. The collection $\{\supp(a) = \spc\TT\setminus U(a)\}$ provides a (closed) basis for the topology.
+\begin{cor} The collection $\{U(a):a \in \TT\}$ provides an (open) basis for the topology. The collection $\{\supp(a) = \spc\TT\setminus U(a)\}$ provides a (closed) basis for the topology.
 \end{cor}
 
-\newpage
+\subsection{Spc\texorpdfstring{$\TT$}{𝓣} is a Spectral Space}
 
+So far, we have defined prime ideals ideals and equipped $\TT$ with a topology that is analogous to the Zariski topology found in the world of commutative rings. It is natural for us to then ask if this topology is merely analogous to spectra on rings. Does the connection go deeper than analogy? To answer this question we have to first know what $\Spec T$ looks like for a commutative ring $R$. It turns out that for any $R$ a commutative ring, $\Spec R$ is what is called a \textit{spectral space}.
+
+\begin{defn}
+A topological space $X$ is called \textbf{irreducible} if it cannot be written as the union of two proper closed subsets of $X$.
+
+A topological space $X$ is called \textbf{sober} if every nonempty irreducible closed subset of $X$ is the closure of exactly one point of $X$. Given such an irreducible closed subset $Y$ of $X$ the unique point $y \in X$ such that $\bar y = Y$, the point $y$ is called the \textbf{generic point} of $Y$.
+\end{defn}
+
+\begin{defn}
+Let $X$ be a topological space and $\mathcal{K}^\circ(X)$ its set of quasi-compact open subsets of $X$. $X$ is \textbf{spectral} if
+\begin{enumerate}[1.]
+	\item $X$ is quasi-compact and $T_0$.
+	\item $\mathcal{K}^{\circ}(X)$ is a basis for $X$.
+	\item $\mathcal{K}^\circ(X)$ is closed under finite intersections.
+	\item $X$ is sober.
+\end{enumerate}
+Given spectral spaces $X$ and $Y$,  \textbf{spectral map} $X \xrightarrow{f} Y$ is a continuous map such that for any quasi-compact open $U \subseteq Y$ the preimage $f^{-1}(U)$ is quasi-compact.
+\end{defn}
+
+Remarkably, Hochster showed in \cite{Hochster:1969} that any spectral space may be realized as the spectrum of a ring. We will now proceed to show that $\spc \TT$ is also spectral.
+
+\begin{prop}
+Let $\cP \in \spc \TT$. Then $\overline{P} = \{\mathcal{Q} \in \spc \TT: \mathcal{Q} \subseteq \mathcal{P}\}$.
+\end{prop}
+\begin{proof}
+Let $\mathcal{S} = \TT \setminus \mathcal{P}$. Then, 
+\begin{align*}
+Z(\mathcal{S}) 	&= Z(\TT \setminus \cP)\\
+		&= \{\mathcal{Q}: \mathcal{Q} \cap (\TT \setminus \cP) = emptyset\}\\
+		&= \{\mathcal{Q}: \mathcal{Q} \subseteq \mathcal{P}\}\\
+\end{align*}
+Clearly $\mathcal{P} \in Z(\mathcal{S})$ and by definition $Z(\mathscr{P})$ is closed, so $\overline{P} \subseteq Z(\mathcal{S})$. Now suppose that $\mathcal{P} \subseteq Z(\mathcal{S}')$ where $\mathcal{S}'$ is some other collection of objects in $\TT$. Then $\mathcal{S}' \cap \mathcal{P} = \emptyset$, so $\mathcal{S}' \subseteq \TT \setminus \cP = \mathcal{S}$, which implies that $Z(\mathcal{S}) \subseteq Z (\cS')$, and therefore $Z(\cS)$ is minimal amongst closed sets containing $\cP$.
+\end{proof}
+
+\begin{rmk}
+This may be confusing to people used to thinking about $\Spec R$ for a commutative ring $R$, so one must be carful when switching between these two contexts. However, it is a hint towards the relationship between prime ideals in $R$ and the prime $\otimes$-ideals of $\spc \operatorname{D}^{\text{perf}}(R)$.
+\end{rmk}
+
+\newpage
 
 \section{Appendix A - Triangulated Categories}
 \subsection{The Octohedral Axiom}\label{octaxiom}
@@ -399,6 +453,9 @@ This view emphasizes some of the intuition of the octohedral axiom a little more
 This looks a lot like the third isomorphism theorem, and so one way to view the octohedral axiom is as a coherence condition enforcing the kind of quotient isomorphisms that we expect to see in algebraic settings.
 
 \subsection{Definitions and Elementary Results}
+
+Much of the exposition here is adapted from \cite[\href{https://stacks.math.columbia.edu/tag/05QN}{Section 05QN}]{stacks-project}.
+
 
 \begin{defn}
 Let $\TT$ be a triangulated category and $\mathcal{A}$ an abelian category. An additive functor $H: \TT \to \mathcal{A}$ is called \textbf{homological} if for every distinguished triangle $(X,Y,Z; f,g,h)$ the sequence given by the image
@@ -490,4 +547,9 @@ For any two objects $A$ and $B$ of $\TT$, the triangle $(A, A \oplus B, B; (\id_
 \begin{proof}
 Apply \autoref{sumoftriangles} to the distinguished triangles $(A,A,0; \id_A,0,0)$ and $(0,B,B; 0,\id_B,0)$.
 \end{proof}
+
+\nocite{*}
+\bibliography{refs}
+
+
 \end{document}

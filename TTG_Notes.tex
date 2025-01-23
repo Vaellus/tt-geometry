@@ -17,6 +17,8 @@
 \DeclareMathOperator{\CC}{\mathcal{C}}
 \DeclareMathOperator{\CS}{\mathcal{S}}
 \DeclareMathOperator{\cS}{\mathcal{S}}
+\DeclareMathOperator{\cZ}{\mathcal{Z}}
+\DeclareMathOperator{\CK}{\mathcal{K}}
 \DeclareMathOperator{\ob}{Obj}
 \DeclareMathOperator{\TT}{\mathcal{T}}
 \DeclareMathOperator{\cP}{\mathcal{P}}
@@ -35,21 +37,19 @@
 
 \noindent
 
-\large{\underline{WARNING FOR THE READER:}} \normalsize These notes are in progress and they are evolving as my understanding of the subject evolves. In fact, there should only be 3 people with eyes on this thing before it's ready for prime time, so if you're not one of those three people, then I don't know how you're reading this.
+\large{\underline{WARNING FOR THE READER:}} \normalsize These notes are in progress and they are evolving as my understanding of the subject evolves. In fact, so
 
-This is aimed at those who have some experience with homological algebra, (some kind of) homotopy theory, and hopefully a little representation theory. I will try not to assume too much familiarity with triangulated categories, but I will refer the reader to other texts (most likely the Stacks Project) for proofs about general triangulated categories.
+This is aimed at those who have some experience with homological algebra, (some kind of) homotopy theory, and hopefully a little representation theory. I will try not to assume too much familiarity with triangulated categories.
 
 \large{\underline{TO-DO}:}\normalsize
 \begin{enumerate}[$\bullet$]
-	\item Add more commentary.
-	\item Do more exercises.
-	\item More sections.
+	\item Add section on Idempotents and The Main Classification theorem
 \end{enumerate}
 
 
 \large{\underline{QUESTIONS}:}\normalsize
 \begin{enumerate}[$\bullet$]
-	\item Ask Julia about when we get an internal hom from the monoidal structure.
+	\item Ask Julia about the Brown Representability theorem and conditions that guarantee an intenal Hom.
 \end{enumerate}
 
 \newpage
@@ -217,8 +217,8 @@ Given a triangulated category $(\TT,\Sigma,\Delta)$, a \textbf{triangulated subc
 \end{enumerate}
 \end{defn}
 
-\begin{rmk}
-Note that the above definition immediately implies that if $X \to Y \to Z$ is a distinguished triangle in $\TT$ and $X,Y \in \CC$ then $Z \in \CC$.
+\begin{rmk}\label{rmk:ConeClosure}
+Note that the above definition immediately implies that if $X \to Y \to Z \to \Sigma X$ is a distinguished triangle in $\TT$ and any two of $X,Y,Z$ are in $\CC$ then the third is in $\CC$.
 \end{rmk}
 
 We are now ready for our first proposition.
@@ -275,16 +275,16 @@ A thick $\otimes$-ideal $\mathcal{P} \subseteq \TT$ is called \textbf{prime} if 
 Later on we will define $\Spec \TT $ to be the set $\spc \TT$ equipped with a particular ringed space structure, so we will hold the notation $\Spec \TT$ in reserve until then. To put a ringed space structure on $\spc \TT$, we first need to put a topology on $\TT$.
 
 \begin{defn}
-For any $\mathcal{S} \subseteq \ob(\TT)$, we write $Z(S) \coloneqq \{\cP \in \spc \TT\:|\:\mathcal{S}\cap \cP = \emptyset\}$.
+For any $\mathcal{S} \subseteq \ob(\TT)$, we write $\mathcal{Z}(S) \coloneqq \{\cP \in \spc \TT\:|\:\mathcal{S}\cap \cP = \emptyset\}$.
 \end{defn}
 
 \begin{prop}
 For any tt-category $\TT$ the following hold:
 \begin{enumerate}[1.]
-	\item $\bigcap_{i \in I}Z(\mathcal{S}_i) = Z(\bigcup_{i \in I}\mathcal{S}_i)$ for a family $\{\mathcal{S}_i\}_{i \in I}$ where $\mathcal{S}_i \subseteq \ob(\TT)$ for each $i \in I$.
-	\item $Z(\mathcal{S}_1 \oplus \mathcal{S}_2) = Z(\mathcal{S}_1) \cup Z(\mathcal{S}_2)$ 
-	\item $Z(\TT) = \emptyset$
-	\item $Z(\emptyset) = \spc \TT$
+	\item $\bigcap_{i \in I}\cZ(\mathcal{S}_i) = \cZ(\bigcup_{i \in I}\mathcal{S}_i)$ for a family $\{\mathcal{S}_i\}_{i \in I}$ where $\mathcal{S}_i \subseteq \ob(\TT)$ for each $i \in I$.
+	\item $\cZ(\mathcal{S}_1 \oplus \mathcal{S}_2) = \cZ(\mathcal{S}_1) \cup \cZ(\mathcal{S}_2)$ 
+	\item $\cZ(\TT) = \emptyset$
+	\item $\cZ(\emptyset) = \spc \TT$
 \end{enumerate}
 where $\mathcal{S}_1 \oplus \mathcal{S}_2 = \{a \oplus b\:|\: a \in \mathcal{S}_1, b \in \mathcal{S}_2\}$.
 \end{prop}
@@ -292,13 +292,13 @@ where $\mathcal{S}_1 \oplus \mathcal{S}_2 = \{a \oplus b\:|\: a \in \mathcal{S}_
 \
 
 \begin{enumerate}[1.]
-	\item  $\cP \in \bigcap_{i \in I}Z(\cS_i)$ if and only if $\cP \cap \cS_i = \emptyset$ for all $i \in I$ if and only if $\cP \cap \left(\bigcup_{i \in I}\cS_i \right) = \emptyset $ if and only if $\cP \in Z(\bigcup_{i \in I}\cS_i)$.
-	\item If $\mathcal{P} \not\in Z(\CS_1 \oplus \CS_2)$ then $\exists a \oplus b \in \cP$ where $a \in \CS_1,b \in \CS_2$. But as $\cP$ is a thick $\otimes$-ideal $a,b \in \cP$, so $\cP$ intersects both $\CS_1$ and $\CS_2$ nontrivially and therefore $\cP \not\in Z(\CS_1) \cup Z(\CS_2)$. On the other hand, if $\cP$ is not in either $Z(\CS_1)$ or $Z(\CS_2)$ then $\cP$ must intersect both $\CS_1$ and $\CS_2$, so take $a \in \cP \cap \CS_1$ and $b \in \cP \CS_2$. Then $a \oplus b \in \cP$ and therefore $\cP \cap \CS_1 \cap \CS_2 \not = \emptyset$, so $\cP \not\in Z(\CS_1 \oplus \CS_2)$.
+	\item  $\cP \in \bigcap_{i \in I}\cZ(\cS_i)$ if and only if $\cP \cap \cS_i = \emptyset$ for all $i \in I$ if and only if $\cP \cap \left(\bigcup_{i \in I}\cS_i \right) = \emptyset $ if and only if $\cP \in \cZ(\bigcup_{i \in I}\cS_i)$.
+	\item If $\mathcal{P} \not\in \cZ(\CS_1 \oplus \CS_2)$ then $\exists a \oplus b \in \cP$ where $a \in \CS_1,b \in \CS_2$. But as $\cP$ is a thick $\otimes$-ideal $a,b \in \cP$, so $\cP$ intersects both $\CS_1$ and $\CS_2$ nontrivially and therefore $\cP \not\in \cZ(\CS_1) \cup \cZ(\CS_2)$. On the other hand, if $\cP$ is not in either $\cZ(\CS_1)$ or $\cZ(\CS_2)$ then $\cP$ must intersect both $\CS_1$ and $\CS_2$, so take $a \in \cP \cap \CS_1$ and $b \in \cP \CS_2$. Then $a \oplus b \in \cP$ and therefore $\cP \cap \CS_1 \cap \CS_2 \not = \emptyset$, so $\cP \not\in \cZ(\CS_1 \oplus \CS_2)$.
 \end{enumerate}
 3. and 4. are obvious from the definition.
 \end{proof}
 
-It immediately follows that we can define a Zariski topology on $\spc \TT$ with closed sets $Z(S)$.
+It immediately follows that we can define a Zariski topology on $\spc \TT$ with closed sets $\cZ(S)$.
 
 \begin{defn}
 For any $a \in \Ob(\TT)$, we define $\Supp(a) = \{\mathcal{P}\:|\: a \not\in \cP\}$.
@@ -307,9 +307,9 @@ For any $a \in \Ob(\TT)$, we define $\Supp(a) = \{\mathcal{P}\:|\: a \not\in \cP
 We could also define the topology using open sets of the form below:
 
 \begin{defn}
-Given $Z(\mathcal{S})$ a closed set in $\spc \TT$ define 
+Given $\cZ(\mathcal{S})$ a closed set in $\spc \TT$ define 
 \[
-	U(\mathcal{S})\coloneqq \spc \TT \setminus Z(\mathcal{S}) = \{\mathcal{P} \in \spc \TT: \mathcal{S} \cap \mathcal{P} \not = \emptyset\}
+	U(\mathcal{S})\coloneqq \spc \TT \setminus \cZ(\mathcal{S}) = \{\mathcal{P} \in \spc \TT: \mathcal{S} \cap \mathcal{P} \not = \emptyset\}
 \] 
 \end{defn}
 
@@ -336,12 +336,12 @@ The proof of this proposition follows easily from an application of the lemma be
 Let $\mathcal{I}$ be a $\otimes$-ideal of $\TT$ and $\mathcal{S} \subseteq \TT$ a $\otimes$-multiplicative subset. If $\mathcal{I} \cap \mathcal{S} = \emptyset$ then there exists $\cP \in \spc \TT$ such that $\mathcal{I} \subseteq \cP$ and $\cP \cap \mathcal{S} = \emptyset$.
 \end{lem}
 \begin{proof}
-Define $\mathcal{J} \coloneqq \{a \in \TT: \exists s \in S, a \otimes s \in \mathcal{I}\}$. I claim that this is a thick $\otimes$-ideal containing $\mathcal{I}$. Clearly $\mathcal{I} \subseteq \mathcal{J}$ since $a \otimes x \in \mathcal{I}$ for any $a \in \mathcal{I}$ and any $x \in \TT$. Now suppose that $a \xrightarrow{f} b$ is a morphism in $\mathcal{J}_0$. Since $a,b \in \mathcal{J}$ there are $s,s' \in S$ such that $a \otimes s, b \otimes s \in \mathcal{I}$. In fact, we can just take $s = s'$ by replacing $s$ with $s \otimes s'$ since $a \otimes s \in \mathcal{I}$ implies that $a \otimes s \otimes s' \in \mathcal{I}$ and $s \otimes s' \in S$. Now examine the diagram below:
+Define $\mathcal{J} \coloneqq \{a \in \TT: \exists s \in S, a \otimes s \in \mathcal{I}\}$. I claim that this is a thick $\otimes$-ideal containing $\mathcal{I}$. Clearly $\mathcal{I} \subseteq \mathcal{J}$ since $a \otimes x \in \mathcal{I}$ for any $a \in \mathcal{I}$ and any $x \in \TT$. Now suppose that $a \xrightarrow{f} b$ is a morphism in $\mathcal{J}$. Since $a,b \in \mathcal{J}$ there are $s,s' \in S$ such that $a \otimes s, b \otimes s \in \mathcal{I}$. In fact, we can just take $s = s'$ by replacing $s$ with $s \otimes s'$ since $a \otimes s \in \mathcal{I}$ implies that $a \otimes s \otimes s' \in \mathcal{I}$ and $s \otimes s' \in S$. Now examine the diagram below:
 \[\begin{tikzcd}
 a \otimes s \ar[r,"f \otimes \id_s"] \ar[d,equal] & b \otimes s \ar[d,equal] \ar[r] & \cone(f \otimes \id_s) \ar[r] \ar[d,dashed,leftrightarrow] & \Sigma(a \otimes s) \ar[d, equal]\\
  a \otimes s \ar[r,"f \otimes \id_s"]& b \otimes s \ar[r] & \cone(f) \otimes s \ar[r] &  \Sigma(a) \otimes s \\
 \end{tikzcd}\]
-the dotted arrow exists by TC3 of \autoref{tricat}. By \autoref{tri-five} $\cone(f) \times s \cong \cone(f \otimes \id_s)$. Since $\mathcal{I}$ is a thick subcategory and $a \otimes s, b \otimes s \in \mathcal{I}$ it follows that $\cone(f) \otimes s \cong \cone(f \otimes \id_s) \in \mathcal{I}$. Therefore, $\cone(f) \in \mathcal{J}$, so $\mathcal{J}$ is a tensor subcategory of $\TT$. Now suppose that $a \oplus b \in \mathcal{J} $, so $\exists s \in S $ such that $(a \oplus b) \otimes s \in \mathcal{I}$. Then, since $(a \oplus b) \otimes s \cong (a \otimes s) \oplus (b \otimes s)$ it follows that $a \otimes s, b \otimes s \in \mathcal{I}$, so $a,b \in \mathcal{J}$. Additionally, $\mathcal{J} \cap \mathcal{S}$ since if $a \in \mathcal{S} \cap \mathcal{J}$ then $\exists s \in \mathcal{S}$ such that $a \otimes s \in \mathcal{I}$, but then $a \otimes s \in \mathcal{I} \cap \mathcal{S}$ as $a,s \in \mathcal{S}$ implies that $a \otimes s$ as $\mathcal{S}$ is $\otimes$-multiplicatively closed, which is a contradiction.
+the dotted arrow exists by TC3 of \autoref{tricat}. By \autoref{tri-five} $\cone(f) \otimes s \cong \cone(f \otimes \id_s)$. Since $\mathcal{I}$ is a thick subcategory and $a \otimes s, b \otimes s \in \mathcal{I}$ it follows that $\cone(f) \otimes s \cong \cone(f \otimes \id_s) \in \mathcal{I}$. Therefore, $\cone(f) \in \mathcal{J}$, and by the same token we can see that $\mathcal{J}$ is closed under $\Sigma$, so $\mathcal{J}$ is a triangulated subcategory of $\TT$. Now suppose that $a,b \in \mathcal{J} $. It follows from \autoref{cor:TriSubDirSums} that $a \oplus b \in \mathcal{J}$, so $\exists s \in S $ such that $(a \oplus b) \otimes s \in \mathcal{I}$. Then, since $(a \oplus b) \otimes s \cong (a \otimes s) \oplus (b \otimes s)$ it follows that $a \otimes s, b \otimes s \in \mathcal{I}$, so $a,b \in \mathcal{J}$, so $\mathcal{J}$ is a thick triangulated subcategory. To see that $\mathcal{J}$ is a $\otimes$-ideal, let $a \in \mathcal{J}$ with $s \in \mathcal{S}$ such that $a \otimes s \in \mathcal{I}$, and since $\mathcal{I}$ is a $\otimes$-ideal we see that for any $b \in \TT$, $(a \otimes s) \otimes b \in \mathcal{I}$, but then by associativity of $\otimes$ we have $a \otimes b \in \mathcal{J}$. Additionally, $\mathcal{J} \cap \mathcal{S} = \emptyset$ since if $a \in \mathcal{S} \cap \mathcal{J}$ then $\exists s \in \mathcal{S}$ such that $a \otimes s \in \mathcal{I}$, but then $a \otimes s \in \mathcal{I} \cap \mathcal{S}$ as $a,s \in \mathcal{S}$ implies that $a \otimes s$ as $\mathcal{S}$ is $\otimes$-multiplicatively closed, which is a contradiction.
 
 Now let $C$ be the collection of thick $\otimes$-ideals $\mathcal{J}$ where 
 \begin{enumerate}[(1)]
@@ -349,7 +349,7 @@ Now let $C$ be the collection of thick $\otimes$-ideals $\mathcal{J}$ where
 	\item If $a \in \mathcal{T}$ such that there is some $s \in \mathcal{S}$ where $a \otimes s \in \mathcal{J}$, then $a \in \mathcal{J}$
 	\item $\mathcal{I} \subseteq \mathcal{J}$
 \end{enumerate}
-The paragraph above shows that $C$ is nonempty. Now let $\{J_i\}$ be an ascending chain (via containment) within $C$. Then clearly the full subcategory of $\TT$ generated by the union of the objects within $\{J_i\}$ is also a thick $\otimes$-ideal satisfying the conditions above, so by Zorn's lemma there exists a maximal element $\mathcal{P}$ of $C$. To see that $\mathcal{P}$ is prime, suppose that $a \times b \in \mathcal{P}$ and $b \not\in P$. Then define $(\mathcal{P}:a)$ to be the full subcategory of $\TT$ generated by $\{x \in \TT: x \otimes a \in \mathcal{P}\}$. This subcategory is easily shown to be a thick $\otimes$-ideal of $\TT$ by essentially the same methods used to show that $\mathcal{J}$ above was a thick $\otimes$-ideal. If $x \in \mathcal{P}$ then $x \otimes a \in \mathcal{P}$ by definition of a $\otimes$-ideal, so $\mathcal{P} \subset (\mathcal{P}: a)$, but $b \in (\mathcal{P}: a) \setminus \mathcal{P}$, so the containment is proper. Hence $(\mathcal{P}:a) \not\in C$, so one of the three properties above fails for $(\mathcal{P}:a)$. Clearly it can't be condition (3), so suppose that $x \in \TT$ such that there is some $s \in \mathcal{S}$ where $x \otimes s \in (\mathcal{P}: a)$. Then $x \otimes s \otimes a \in \mathcal{P}$, but by condition $(2)$ this implies that $x \otimes a \in \mathcal{P}$, and therefore $x \in (\mathcal{P}:a)$. Therefore the only condition that $(\mathcal{P}:a)$ could fail is $(2)$, which means that $\exists s \in (\mathcal{P}:a) \cap S$, so $a \otimes s \in \mathcal{P}$. But then $a \in \mathcal{P}$ by condition (2). Hence $\mathcal{P}$ is prime.
+The paragraph above shows that $C$ is nonempty. Now let $\{J_i\}$ be an ascending chain (via containment) within $C$. Then clearly the full subcategory of $\TT$ generated by the union of the objects within $\{J_i\}$ is also a thick $\otimes$-ideal satisfying the conditions above, so by Zorn's lemma there exists a maximal element $\mathcal{P}$ of $C$. To see that $\mathcal{P}$ is prime, suppose that $a \otimes b \in \mathcal{P}$ and $b \not\in P$. Then define $(\mathcal{P}:a)$ to be the full subcategory of $\TT$ generated by $\{x \in \TT: x \otimes a \in \mathcal{P}\}$. This subcategory is easily shown to be a thick $\otimes$-ideal of $\TT$ by essentially the same methods used to show that $\mathcal{J}$ above was a thick $\otimes$-ideal. If $x \in \mathcal{P}$ then $x \otimes a \in \mathcal{P}$ by definition of a $\otimes$-ideal, so $\mathcal{P} \subset (\mathcal{P}: a)$, but $b \in (\mathcal{P}: a) \setminus \mathcal{P}$, so the containment is proper. Hence $(\mathcal{P}:a) \not\in C$, so one of the three properties above fails for $(\mathcal{P}:a)$. Clearly it can't be condition (3), so suppose that $x \in \TT$ such that there is some $s \in \mathcal{S}$ where $x \otimes s \in (\mathcal{P}: a)$. Then $x \otimes s \otimes a \in \mathcal{P}$, but by condition $(2)$ this implies that $x \otimes a \in \mathcal{P}$, and therefore $x \in (\mathcal{P}:a)$. Therefore the only condition that $(\mathcal{P}:a)$ could fail is $(2)$, which means that $\exists s \in (\mathcal{P}:a) \cap S$, so $a \otimes s \in \mathcal{P}$. But then $a \in \mathcal{P}$ by condition (2). Hence $\mathcal{P}$ is prime.
 \end{proof}
 
 \begin{cor}
@@ -408,7 +408,7 @@ Let $X$ be a topological space and $\mathcal{K}^\circ(X)$ its set of quasi-compa
 	\item $\mathcal{K}^\circ(X)$ is closed under finite intersections.
 	\item $X$ is sober.
 \end{enumerate}
-Given spectral spaces $X$ and $Y$,  \textbf{spectral map} $X \xrightarrow{f} Y$ is a continuous map such that for any quasi-compact open $U \subseteq Y$ the preimage $f^{-1}(U)$ is quasi-compact.
+Given spectral spaces $X$ and $Y$, a \textbf{spectral map} $X \xrightarrow{f} Y$ is a continuous map such that for any quasi-compact open $U \subseteq Y$ the preimage $f^{-1}(U)$ is quasi-compact.
 \end{defn}
 
 Remarkably, Hochster showed in \cite{Hochster:1969} that any spectral space may be realized as the spectrum of a ring. We will now proceed to show that $\spc \TT$ is also spectral.
@@ -419,15 +419,15 @@ Let $\cP \in \spc \TT$. Then $\overline{P} = \{\mathcal{Q} \in \spc \TT: \mathca
 \begin{proof}
 Let $\mathcal{S} = \TT \setminus \mathcal{P}$. Then, 
 \begin{align*}
-Z(\mathcal{S}) 	&= Z(\TT \setminus \cP)\\
-		&= \{\mathcal{Q}: \mathcal{Q} \cap (\TT \setminus \cP) = emptyset\}\\
+\cZ(\mathcal{S}) 	&= \cZ(\TT \setminus \cP)\\
+		&= \{\mathcal{Q}: \mathcal{Q} \cap (\TT \setminus \cP) = \emptyset\}\\
 		&= \{\mathcal{Q}: \mathcal{Q} \subseteq \mathcal{P}\}\\
 \end{align*}
-Clearly $\mathcal{P} \in Z(\mathcal{S})$ and by definition $Z(\mathscr{P})$ is closed, so $\overline{P} \subseteq Z(\mathcal{S})$. Now suppose that $\mathcal{P} \subseteq Z(\mathcal{S}')$ where $\mathcal{S}'$ is some other collection of objects in $\TT$. Then $\mathcal{S}' \cap \mathcal{P} = \emptyset$, so $\mathcal{S}' \subseteq \TT \setminus \cP = \mathcal{S}$, which implies that $Z(\mathcal{S}) \subseteq Z (\cS')$, and therefore $Z(\cS)$ is minimal amongst closed sets containing $\cP$.
+Clearly $\mathcal{P} \in \cZ(\mathcal{S})$ and by definition $\cZ(\mathcal{P})$ is closed, so $\overline{P} \subseteq \cZ(\mathcal{S})$. Now suppose that $\mathcal{P} \subseteq \cZ(\mathcal{S}')$ where $\mathcal{S}'$ is some other collection of objects in $\TT$. Then $\mathcal{S}' \cap \mathcal{P} = \emptyset$, so $\mathcal{S}' \subseteq \TT \setminus \cP = \mathcal{S}$, which implies that $\cZ(\mathcal{S}) \subseteq \cZ (\cS')$, and therefore $\cZ(\cS)$ is minimal amongst closed sets containing $\cP$.
 \end{proof}
 
 \begin{rmk}
-This may be confusing to people used to thinking about $\Spec R$ for a commutative ring $R$, so one must be carful when switching between these two contexts. However, it is a hint towards the relationship between prime ideals in $R$ and the prime $\otimes$-ideals of $\spc \operatorname{D}^{\text{perf}}(R)$.
+This may be confusing to people used to thinking about $\Spec R$ for a commutative ring $R$, so one must be carful when switching between these two contexts. However, it is a hint towards the relationship between prime ideals in $R$ and the prime $\otimes$-ideals of $\spc D^{\text{perf}}(R)$.
 \end{rmk}
 
 \begin{cor}\label{cor:UniqueGenericPoint}
@@ -451,7 +451,7 @@ A point is called \textbf{closed} if $x = \overline{x}$. By \autoref{prop:closur
 \begin{lem}\label{lem:ZinSuppa}
 Let $a \in \TT$ and $\mathcal{S} \subseteq \TT$ be a collection of objects. Then the following are equivalent.
 \begin{enumerate}[(a)]
-	\item $U(a) \subseteq U(\mathcal{S})$ (or equivalently $Z(\mathcal{S}) \subseteq \supp(a)$).
+	\item $U(a) \subseteq U(\mathcal{S})$ (or equivalently $\cZ(\mathcal{S}) \subseteq \supp(a)$).
 	\item There exist finitely many objects $b_1,...,b_n \in \mathcal{S}$ such that $\la a \ra^{\otimes}$.
 \end{enumerate}
 \end{lem}
@@ -478,8 +478,8 @@ Now let $U(\cS)$ be a quasi-compact set. Then
 \begin{align*}
 	U(\cS) &= \bigcup_{a \in \mathcal{S}}U(a)\\
 	       &= U\left( \bigcup_{a \in \cS}a\right)\\
-	       &=U(a_1) \cup \hdots \cup U(a_n)\\ \text{by (b)}\\
-	       = U(a_1 \otimes \hdots \otimes a_n)
+	       &=U(a_1) \cup \hdots \cup U(a_n)  \text{by (b)}\\
+	       &= U(a_1 \otimes \hdots \otimes a_n)\\
 \end{align*}
 \begin{rmk}
 	Given \autoref{prop:U(a)compact} might be tempting to think that $\spc \TT$ is Noetherian (as a topological space) if and only if any $\mathcal{Z} \subseteq \spc \TT$ can be realized as $\supp(a)$ for some $a \in \TT$, but this is not the case as has been shown in \textcolor{blue}{[ADD REFERENCE]}.
@@ -516,7 +516,7 @@ Closure under the translation functor $\Sigma$ is easy, as $U(\Sigma a) = U(a)$ 
 \[
 	U(a \otimes b) \cap \mathcal{Z} = (U(a) \cup U(b)) \cap \mathcal{Z} = (U(a) \cap \mathcal{Z}) \cup (U(b) \cap \mathcal{Z})
 \]
-Note that $U(a) \cap \ZZ \not = \emptyset$ as $\cP$, so the intersection above is nonempty and therefore $a \otimes b \in \cP$. The expression above also shows us that $\cP$ is prime, as $U(a \otimes b) \cap \mathcal{Z} \not = \emptyset$ implies that either $U(a) \cap \mathcal{Z}$ or $U(b) \cap \mathcal{Z}$ is nonempty and therefore either $a$ or $b$ are found in $\cP$.
+Note that $U(a) \cap \cZ \not = \emptyset$ as $\cP$, so the intersection above is nonempty and therefore $a \otimes b \in \cP$. The expression above also shows us that $\cP$ is prime, as $U(a \otimes b) \cap \mathcal{Z} \not = \emptyset$ implies that either $U(a) \cap \mathcal{Z}$ or $U(b) \cap \mathcal{Z}$ is nonempty and therefore either $a$ or $b$ are found in $\cP$.
 
 It remains to show that $\mathcal{Z} = \overline{\cP}$. By \autoref{prop:closureOfP} $\overline{\cP} = \{\mathcal{Q}: \mathcal{Q} \subseteq \cP\}$. Let $\mathcal{Q} \in \mathcal{Z}$ and $a \in \mathcal{Q}$. Since $\mathcal{Q} \in U(a)$, $U(a) \cap \mathcal{Z} \not = \emptyset$. Then $a \in \cP$ and so $\mathcal{Q} \subseteq \cP$ and therefore $\mathcal{Q}\in \overline{P}$ and therefore $\mathcal{Z} \subseteq \overline{\cP}$. Since $\mathcal{Z}$ is itself closed it suffices to show that $\cP \in \mathcal{Z}$ to finish the proof. By \autoref{cor:basis} we can write
 \[
@@ -529,7 +529,93 @@ If $a$ is an object such that $\mathcal{Z} \subseteq \supp(a)$ then $a \not\in \
 $\spc\TT$ is a spectral space.
 \end{cor}
 
+\subsection{Support Data}
+We have proved some abstract results about $\spc \TT$, but how do we compute $\spc \TT$?
+\begin{defn}
+	A \textbf{support data} on a tt-category $\TT$ is a pair $(X,\sigma)$ where $X$ is a topological space and $\sigma$ is an assignment which associates to any object $a \in \TT$ a closed subset $\sigma(a) \subseteq X$ such that:
+\begin{enumerate}[(SD 1)]
+	\item $\sigma(0) = \emptyset$ and $\sigma(1) = X$,
+	\item and $\sigma(a \oplus b) = \sigma(a) \cup \sigma(b)$.
+	\item $\sigma(\Sigma a) = \sigma(a)$,
+	\item $\sigma(b) \subseteq \alpha(a) \cup \sigma(c)$ whenever $a \xrightarrow{}b \xrightarrow{} c \xrightarrow{} \Sigma a $ is distinguished
+	\item $\sigma(a \otimes b) = \sigma(a) \cap \sigma(b)$,
+\end{enumerate}
+A morphism $f:(X,\sigma) \to (Y,\tau)$ of support data on $\TT$ is a continuous map $f:X \to Y$ such that $\sigma(a) = f^{-1}(\tau(a))$ for all objects $a \in \TT$. A morphisms of support data is an isomorphism if and only if $f$ is a homeomorphism.
+\end{defn}
 
+\begin{lem}\label{lem:support-ideal}
+Given a support data $(X,\sigma)$ for $\TT$, the full subcategory of $\TT$ consisting of objects $\{a \in \TT: \sigma(a) \subseteq Y\}$ is a thick $\otimes$-ideal in $\TT$ for any subset $Y \subseteq X$.
+\end{lem}
+\begin{proof}
+Denote $\CC$ as the full subcategory generated by the objects $\{a \in \TT: \sigma(a) \subseteq Y\}$ for some fixed $Y \subseteq X$. If $a \xrightarrow{} b \xrightarrow{} c \xrightarrow{} \Sigma a $ is a distinguished triangle in $\TT$ with any two of $a$, $b$, or $c$ in $\CC$ then the third must be in $\CC$ via application of (SD 3),(SD 4), and rotation of the triangle, so $\CC$ is triangulated. If $x \subseteq a \oplus b$ and $x \in \CC$ then $a,b \in \CC$ via (SD 2). Finally, if $a \in \CC$ and $b \in \TT$ then $a \otimes b \in \CC$ by (SD 5). 
+\end{proof}
+
+\begin{lem}\label{lem:sober-support}
+Let $X$ be a set and let $f_1,f_2: X \to \spc(\TT)$ be two maps such that $f_1^{-1}(\Supp(a)) = f_{2}^{-1}(\Supp(a))$ for all $a \in \TT$. Then $f_1 = f_2$.
+\end{lem}
+\begin{proof}
+Let $x \in X$. For any $a \in \TT$ our assumption on $f_1$ and $f_2$ means $f_1(x) \in \Supp(a) \iff f_2(x) \in \Supp(a)$. It follows that 
+\[
+	\bigcap_{f_1(x) \in \Supp(a)}\Supp(a) = \bigcap_{f_2(x) \in \Supp(a)}\Supp(a)
+\]
+which is a closed set. But then the set above is equal to $\overline{\{f_1(x)\}}$ by \autoref{cor:basis}. But then $\overline{f_1(x)} = \overline{f_{2}(x)}$, and since $\spc(\TT)$ is a sober space, it must be that $f_1(x) = f_2(x)$.
+\end{proof}
+
+\begin{thm}\label{thm:universal-support}
+Let $\TT$ be a tt-category. The support data $(\spc \TT, \Supp)$ is the final support data on $\TT$, meaning that $(\spc \TT, \Supp)$ is a support data on $\TT$ and for any support data $(X,\sigma)$ on $\TT$ there exists a unique support map $f:(X,\sigma) \to (\spc \TT, \Supp)$ where for $x \in X$
+\[
+	f(x) = \{a \in \TT: x \not \in \sigma(a)\}
+\] 
+\end{thm}
+\begin{proof}
+From \autoref{prop:UProperties} it follows that $(\spc(\TT),\supp)$ is a support data for $\TT$ as $\supp(a) = \spc(\TT) \setminus U(a)$. Let $(X,\sigma)$ be a support data on $\TT$ and let $f$ be the map in the theorem statement. We must check that $f$ is a support data morphism. Since $f(x) = \{a \in \TT: \sigma(a) \subseteq X \setminus \{x\}\}$ it follows from \autoref{lem:support-ideal} that $f(x)$ is indeed a thick $\otimes$-ideal. To see that it is prime, let $a \otimes b \in f(x)$. Then $x \not\in \sigma(a \otimes b) = \sigma(a) \cap \sigma(b)$ and then $x  \not\in \sigma(a)$ or $x \not\in \sigma(b)$, so $a \in f(x)$ or $b \in f(x)$ so $f(x)$ is prime. Then we check
+\[
+	f^{-1}(\supp(a)) = \{x \in X: a \not\in f(x)\} = \{x \in X: x \in \sigma(a)\} = \sigma(a)
+\]
+This also yields continuity by the definition of the topology on $\spc(\TT)$.
+\end{proof}
+
+\begin{xmpl}
+If $R$ is a commutative unital ring and $M$ an $R$-module then the support of $M$ is defined as $\Supp(M) \coloneqq \{\fp \in \Spec(R): M_\fp \not = 0\} \subseteq \Spec(R)$. If $M$ is finitely generated then $\Supp(M) = V(\ann_R(M))$ making $\Supp(M)$ closed in $\Spec(R)$. Additionally, if $L,M,N$ are $R$-modules and $0 \to L \to M \to N \to 0$ is exact then $\Supp(M) = \Supp(L) \cup \Supp(N)$. This suggests a support data structure $(\Spec(R),\Supp)$.
+However, the category of finitely generated $R$-modules is not triangulated. To fix this, we may generalize this by passing to the big derived category $D(R)$ and defining $\Supp(C^\bullet) \coloneqq \{\fp \in \Spec(R): C^\bullet \otimes_R^L k(p) \not = 0\}$. By regarding $M$ as a complex concentrated in degree 0 we have that the two definitions agree. If we restrict our attention to $D^{\text{perf}}(R)$ we then it is straightforward to check that $(\Spec(R),\Supp)$ is a support data for $D^{\text{perf}}(R)$. The same holds for $D^{\text{perf}}(X)$ for $X$ a "sufficiently nice" scheme. \textcolor{red}{NOTE TO SELF: what does sufficiently nice mean?} 
+\end{xmpl}
+
+Now we want to show that the universal support data is functorial. Going forward, if we wish to distinguish between different tt-categories we will differentiate supports by the notations $\supp_{\TT}(a)$ for the tt-category $\TT$.
+
+\begin{prop}
+The spectrum is functorial, meaning that given a $\otimes$-exact $F: \TT \to \CK$, the map 
+\[
+	\spc F: \spc(\CK) \to \spc(\TT)
+\]
+given by $\mathcal{Q} \mapsto F^{-1}(\mathcal{Q})$ is well-defined and continuous. Furthermore, for all objects $a \in \TT$, 
+\[
+	(\spc F)^{-1}(\supp_{\TT}(a)) = \supp_{\CK}(F(a))
+\]
+This assignment defines a contravariant functor $\spc(-)$ from essentially small tensor triangulated categories to the category of topological spaces.
+\end{prop}
+\begin{proof}
+Immediate from the construction.
+\end{proof}
+
+\begin{cor}
+If two $\otimes$-exact functors $F_1,F_2: \TT \to \CK$ have the property that $\la F_1(a) \ra = \la F_2(a) \ra$ in $\mathcal{L}$ for any object $a \in \TT$, then $\spc F_1 = \spc F_2$. In particular, agreement of $F_1$ and $F_2$ on objects implies that they have the same map on spectra.
+\end{cor}
+\begin{proof}
+If $\mathcal{Q} \in \spc(\CK)$ and $a \in \spc(\TT)$ then
+\[
+	a \in F_i^{-1}(\mathcal{Q}) \iff \la F_i(a) \ra \subseteq \mathcal{Q}
+\]
+Therefore, $\la F_1(a) \ra = \la F_2(a) \ra$ implies that $F_1^{-1}(\mathcal{Q}) = F_2^{-1}(\mathcal{Q})$ making $\spc(F_1) = \spc(F_2)$.
+\end{proof}
+
+\begin{cor}
+Suppose that a $\otimes$-exact functor $F: \TT \to \CK$ is essentially surjective. Then $\spc F$ is a homeomorphism onto its image.
+\end{cor}
+\begin{proof}
+Any thick $\otimes$-ideal is replete, i.e. closed under isomorphism, so $\la F(F^{-1}(\mathcal{Q})) \ra = \mathcal{Q}$ as $F$ is essentially surjective. Therefore if $F^{-1}(\mathcal{Q}_1) = F^{-1}(Q_{2})$ then $\mathcal{Q}_1 = \mathcal{Q}_2$, so $\spc F$ is injective. The rest of the proof procedes similarly to the proof of the analogous statement for commutative rings.
+\end{proof}
+
+\textcolor{red}{NEXT: IDEMPOTENTS AND THE MAIN CLASSIFICATION THEOREM}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -631,8 +717,12 @@ Without loss of generality assume that $\alpha$ and $\gamma$ are isomorphisms. T
 Then, by the 5-lemma, the middle map is an isomorphism, so $\Hom_{\TT}(A,Y) \cong \Hom_{\TT}(A,Y')$ via $\Hom_{\TT}(\beta, A)$ for any arbitrary $A$. By Yoneda's lemma it follows that $Y \xrightarrow{\beta} Y'$ is an isomorphism.
 \end{proof}
 
+\begin{defn}
+Let 
+\end{defn}
+
 \begin{rmk}\label{specialtriangles}
-This proof actually give us a little more than advertised. It says that if we have a morphism of (not necessarily distinguished) triangles $(\alpha,\beta,\gamma): (X,Y,Z; f,g,h) \to (X',Y',Z'; f',g',h')$ such that the long exact sequences coming from $\Hom_{\TT}(W,-)$ on the triangles are exact for all $W \in \ob(\TT)$, then any two of $\alpha,\beta,\gamma$ being isomorphisms implies that the third is an isomorphism. It's worth pointing this out since this conclusion is slightly stronger as there are triangles for which this condition holds that are not distinguished.
+This proof actually give us a little more than advertised. It says that if we have a morphism of (not necessarily distinguished) triangles $(\alpha,\beta,\gamma): (X,Y,Z; f,g,h) \to (X',Y',Z'; f',g',h')$ such that the long exact sequences coming from $\Hom_{\TT}(W,-)$ on the triangles are exact for all $W \in \ob(\TT)$, then any two of $\alpha,\beta,\gamma$ being isomorphisms implies that the third is an isomorphism. We will call such triangles \textbf{special triangles} It's worth pointing this out since this conclusion is slightly stronger as there are triangles for which this condition holds that are not distinguished.
 \end{rmk}
 
 \begin{cor}\label{sumoftriangles}
@@ -657,6 +747,13 @@ For any two objects $A$ and $B$ of $\TT$, the triangle $(A, A \oplus B, B; (\id_
 \end{cor}
 \begin{proof}
 Apply \autoref{sumoftriangles} to the distinguished triangles $(A,A,0; \id_A,0,0)$ and $(0,B,B; 0,\id_B,0)$.
+\end{proof}
+
+\begin{cor}\label{cor:TriSubDirSums}
+If $\TT'$ is a triangulated subcategory of $\TT$ and $a,b$ are objects in $\TT'$, then $a \oplus b \in \TT'$.
+\end{cor}
+\begin{proof}
+	As $a,b$ in $\TT'$ it follows from \autoref{tri-dir-sum} and \autoref{rmk:ConeClosure} that $a \oplus b \in \TT'$.
 \end{proof}
 
 \nocite{*}
